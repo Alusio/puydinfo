@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+<html lang="fr">
+
+
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+{% for message in messages %}
+
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+
+    </div>
+{% endfor %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-centered">
+                {% if group == "none" %}
+                    <p><a href="/groupe/edit" class="btn btn-red-new btn-lg">Créer un groupe</a></p>
+                {% else %}
+                    <h2>{{ group.name }} <a
+                            href="/groupe/edit"><span class="far fa-edit"></span></a></h2>
+                    <hr>
+                    {% for m in member %}
+                        <h3>{{ m.name }} - {{ m.age }} ans{% if m.child == True %}
+                            <span class="far fa-child"></span>{% endif %} <a
+                                href="/member/edit/{{ m.id }}"><span class="far fa-edit"></span></a></h3>
+                    {% endfor %}
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-bottom: 15px;">
+                            <a href="/member/add/{{ group.id }}" class="btn btn-primary-new btn-lg">Ajouter un
+                                membre</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="/sejour" class="btn btn-black-new btn-lg"><span
+                                    class="fas fa-calendar-day"></span> Gérer mes séjours</a>
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <br>
+            </div>
+            <br>
+            <div class="col-md-6 col-centered">
+                <div class="section-title">
+                    <h2 class="title"><span class="fas fa-info"></span> Informations</h2>
+                </div>
+                <div class="post post-widget">
+                    <div class="post-body">
+                        <p>Pour modifier un membre ou le nom du groupe, cliquez sur <span class="far fa-edit"></span>.
+                        </p>
+                        <p><span class="far fa-child"></span> indique qu'il s'agit d'un enfant de moins de 13 ans</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+<link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

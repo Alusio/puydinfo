@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+
+<html lang="fr">
+<link rel="stylesheet" href="{% static '/theme/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/style.css' %}">
+<head>
+    {% progressive_web_app_meta %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Spectacle {{ show.name }}">
+    <meta name="keywords" content="spectacle,{{ show.name }}">
+    <meta name="author" content="Alusio">
+    <title>{{ show.name }}</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+
+    <div id="post-header" class="page-header">
+        <div class="page-header-bg" style="background-image: url({{ show.photo_banner.url }});"
+             data-stellar-background-ratio="0.5"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 text-center">
+                    <img src="/static/icons/lantern.svg"
+                         style="width:20%; display: block; margin: auto;"
+                         title="Antiquité">
+                    <br>
+                    <h1 class="text-uppercase">{{ slug }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% include 'legales_js.html' %}
+<div class="section">
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+            <div id="hot-post" class="row hot-post">
+                <div class="col-md-8 hot-post-left">
+                    <div class="col-md-8">
+                        {% for show in shows %}
+                            <div class="post post-thumb">
+                                <a class="post-img" href="/show/{{ show.slug }}"><img
+                                        src="/media/{{ show.photo_home }}"
+                                        alt="Phtoto {{ show.slug }}"></a>
+                                <div class="post-body">
+                                    <div class="post-category">
+                                        <p class="lead" style="color: {{ show.color_title }}; font-size: 0.9em">
+                                            {% for t in type %}{{ t }}{% if not forloop.last %} -
+                                            {% endif %}{% endfor %}</p>
+                                    </div>
+                                    <h3 class="post-title title-lg"><a href="/show/{{ show.slug }}"
+                                                                       style="color: {{ show.color_title }} !important;"><span
+                                            class="far fa-theater-masks"></span> {{ show.name }}</a>
+                                    </h3>
+                                    <ul class="post-meta">
+                                        <li style="font-size: 1.2em;">{{ show.duration }} min</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+<script type="text/javascript">
+    let slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        let i;
+        let x = document.getElementsByClassName("mySlides");
+        if (n > x.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+</script>
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+</body>
+</html>

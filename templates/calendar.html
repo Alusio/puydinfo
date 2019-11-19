@@ -1,0 +1,112 @@
+{% load static %}
+{% load staticfiles %}
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.css'/>
+
+{% include "import.html" %}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Légende</h2>
+                <div class="row">
+                    {% for c in color %}
+                        <div class="col-md-3" style="padding-top: 15px; padding-bottom: 15px;">
+                            <div style="background-color: {{ c.color__name }}; width: 20px; height: 20px;">
+                                <h3 style="padding-left: 30px; width: 200px;">{{ c.title }}</h3></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+                <hr>
+                <div id='calendar'></div>
+
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="container">
+            {% include 'copyright.html' %}
+        </div>
+    </footer>
+    <!-- /FOOTER -->
+
+    <!-- Scripts
+    -->
+    <link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+    <script src="{% static '/cookie/cookiealert.js' %}"></script>
+    <script src="{% static '/theme/js/jquery.min.js' %}"></script>
+    <script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static '/theme/js/main.js' %}"></script>
+    <script src="{% static '/js/idb.js' %}"></script>
+    <script src="{% static '/js/idbop.js' %}"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/fr.js'></script>
+    <script>
+        $(document).ready(function () {
+
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            $('#calendar').fullCalendar({
+                land: 'fr',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: false,
+                events: [
+                    {% for cal in calendar %}
+                        {
+                            title: '{{ cal.title }}',
+                            allDay: {{ cal.allDay|lower }},
+                            start: new Date({{ cal.start|date:"Y" }}, {{ cal.start|date:"m"|add:'-1'}}, {{ cal.start|date:"d" }}),
+                            end: new Date({{ cal.end|date:"Y" }}, {{ cal.end|date:"m"|add:'-1'}}, {{ cal.end|date:"d"|add:"1" }}),
+                            color: '{{ cal.color }}',
+                            rendering: '{{ cal.rendering }}'
+                        },
+                    {% endfor %}
+                ]
+
+
+            });
+
+        });
+    </script>
+</body>
+</html>
+

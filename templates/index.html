@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+<html lang="fr">
+
+
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    {% progressive_web_app_meta %}
+    <title>Puy d'Info</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Puy d'Info est un site fan non officiel, d'aide à l'organisation d'une journée au Puy du Fou. Vous y retrouverais des informations pratiques sur les spectacles, restaurants ou hôtels.">
+    <meta name="keywords" content="puy du fou, puy d'info, info, aide, spectacles">
+    <meta name="author" content="Alusio">
+
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+
+</head>
+
+<body>
+
+<header id="header">
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+{% for message in messages %}
+
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+
+    </div>
+{% endfor %}
+
+
+<div class="section">
+    <div class="container">
+
+        <div id="hot-post" class="row hot-post">
+            <div class="col-md-8 hot-post-left">
+                <!-- post -->
+                <div class="post post-thumb">
+                    <a class="post-img" href="/show/{{ show.slug }}"><img
+                            src="/media/{{ show.photo_home }}"
+                            alt="Phtoto {{ show.slug }}"></a>
+                    <div class="post-body">
+                        <div class="post-category">
+                            <p class="lead" style="color: {{ show.color_title }}; font-size: 0.9em">
+                                {% for t in type %}{{ t }}{% if not forloop.last %} - {% endif %}{% endfor %}</p>
+                        </div>
+                        <h3 class="post-title title-lg"><a href="/show/{{ show.slug }}"
+                                                           style="color: {{ show.color_title }} !important;"><span
+                                class="far fa-theater-masks"></span> {{ show.name }}</a>
+                        </h3>
+                        <ul class="post-meta">
+                            <li>{{ theme_show }}</li>
+                            <li>{{ show.duration }} min</li>
+                            <li>{% for t in category %}{{ t }}{% if not forloop.last %} - {% endif %}{% endfor %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 hot-post-right">
+                <!-- post -->
+
+                <div class="post post-thumb">
+                    <a class="post-img" href="/restaurant/{{ resto.slug }}"><img
+                            src="/media/{{ resto.photo_home }}"
+                            alt="Phtoto {{ show.slug }}"></a>
+                    <div class="post-body">
+                        <div class="post-category">
+                            <p class="lead" style="color: {{ resto.color_title }}; font-size: 0.9em">
+                                {% for t in type2 %}{{ t }}{% if not forloop.last %} - {% endif %}{% endfor %}</p>
+                        </div>
+                        <h3 class="post-title title-lg"><a href="/restaurant/{{ resto.slug }}"
+                                                           style="color: {{ resto.color_title }} !important;"><span
+                                class="far fa-utensils"></span> {{ resto.name }}</a>
+                        </h3>
+                        <ul class="post-meta">
+                            <li>{{ theme_resto }}</li>
+
+                            <li>{% for t in category2 %}{{ t }}{% if not forloop.last %} -
+                            {% endif %}{% endfor %}</li>
+                            <li>{{ resto.price }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="post post-thumb">
+                    <a class="post-img" href="/hotel/{{ hotel.slug }}"><img
+                            src="/media/{{ hotel.photo_home }}"
+                            alt="Phtoto {{ show.slug }}"></a>
+                    <div class="post-body">
+                        <div class="post-category">
+                            <p class="lead" style="color: {{ hotel.color_title }}; font-size: 0.9em">
+                                {% for t in type3 %}{{ t }}{% if not forloop.last %} - {% endif %}{% endfor %}</p>
+                        </div>
+                        <h3 class="post-title title-lg"><a href="/hotel/{{ hotel.slug }}"
+                                                           style="color: {{ hotel.color_title }} !important;"><span
+                                class="far fa-hotel"></span> {{ hotel.name }}</a>
+                        </h3>
+                        <ul class="post-meta">
+                            <li>{{ theme_hotel }}</li>
+
+                            <li>{% for t in category3 %}{{ t }}{% if not forloop.last %} -
+                            {% endif %}{% endfor %}</li>
+                            <li>{{ hotel.price }}</li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!-- /post -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="section-title">
+                    <h2 class="title"><span class="far fa-tasks"></span> Assistant de planification</h2>
+                </div>
+            </div>
+            <br>
+
+            <div class="post">
+                <div class="post-body">
+
+                    <div class="row">
+
+                        {% if date == "none" %}
+                            <p style="font-size: 1.1em;"> Bonjour {{ user.username }} !<br> Pour organiser votre journée
+                                sur le parc, vous pouvez générer un programme
+                                pour <b>le jour même</b> ou <b>lendemain.</b></p>
+                            {% if not sejour %}
+                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
+                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
+                                    associez un groupe.<br>
+                                <p>Dans un groupe, vous définissez avec qui vous partez. <br>
+                                    De cette manière, nos algorithmes adaptent votre journée plus précisement.</p>
+                                <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                    séléctionne pour vous le plus adpaté à vos critères.</p>
+                            {% endif %}
+
+                            <div class="col-md-4">
+                                <br>
+                                <a href="/planner" class="btn btn-red-new" style="font-size: 20px"><span
+                                        class="far fa-plus"></span> Générer mon
+                                    programme</a>
+                            </div>
+
+                            {% if not sejour %}
+
+                                <div class="col-md-4">
+                                    <br>
+                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
+                                            class="far fa-calendar-day"></span> Commencer un séjour</a>
+                                </div>
+                            {% else %}
+
+                                <div class="col-md-4">
+                                    <br>
+                                    <a href="/sejour" class="btn btn-black-new btn-lg"
+                                       style="font-size: 20px; width: 300px"><span
+                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
+                                </div>
+                            {% endif %}
+                        {% elif date == "not" %}
+                            <p style="font-size: 1.1em;">Pour commencer à utiliser notre assistant de création de
+                                programme, vous devez être
+                                connecté sur notre
+                                site.<br>
+                                Cliquez sur "Se connecter" pour vous authentifier ou créer un compte.</p>
+                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                séléctionne pour vous le plus adpaté à vos critères.</p>
+                            <br>
+                            <a href="/accounts/login/" class="btn btn-red-new" style="font-size: 20px">Se
+                                connecter</a>
+
+                        {% else %}
+                            <p style="font-size: 1.1em;">Bonjour {{ user.username }} ! Votre dernier programme généré
+                                est
+                                pour le <b>{{ date }}</b>.<br>
+                                Vous pouvez en générer un nouveau à tout moment.</p>
+                            {% if sejour %}
+                                <p style="font-size: 1.1em;">
+                                    Votre prochain séjour est prévu pour le <b>{{ sejour.date }}</b>.
+                                </p>
+                            {% endif %}
+                            {% if not sejour %}
+                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
+                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
+                                    associez un groupe.<br>
+                                    Les groupes permettent à nos algorithmes d'adapter aux mieux votre séjour.</p>
+                            {% endif %}
+                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                séléctionne pour vous le plus adpaté à vos critères.</p>
+                            <br>
+                            <div class="col-md-4">
+                                <a href="/planner" class="btn btn-primary-new btn-lg"
+                                   style="font-size: 20px; width: 300px"><span
+                                        class="far fa-plus"></span> Générer un<br>
+                                    nouveau
+                                    programme</a>
+                                <br>
+                                <br>
+
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/programme" class="btn btn-red-new btn-lg"
+                                   style="font-size: 20px; width: 300px"><span
+                                        class="far fa-lightbulb"></span> Mon
+                                    programme<br> du {{ date|date:'d/m/y' }}  </a>
+                                <br>
+                                <br>
+                            </div>
+                            <div class="col-md-4">
+                                {% if not sejour %}
+                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
+                                            class="far fa-calendar-day"></span><br> Créer un séjour</a>
+                                {% else %}
+                                    <a href="/sejour" class="btn btn-black-new btn-lg"
+                                       style="font-size: 20px; width: 300px"><span
+                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
+                                {% endif %}
+                                <br>
+                                <br>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if feed %}
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h2 class="title"><span class="far fa-newspaper"></span> Actualités</h2>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="post">
+                                <div class="post-body">
+                                    {% if show_id == "not" %}
+                                        <div>
+                                            <header class="style1">
+                                                <img src="/media/{{ feed.photo_home }}" style="width: 100%">
+                                            </header>
+                                            <div class="feed">
+                                                <br>
+                                                <h2 style="text-align: center">{{ feed.title|upper }}</h2>
+                                                <p style="margin: 5px;">{{ feed.content }}</p>
+                                                <br>
+                                                <a href="{{ feed.url }}" class="btn btn-black-new"
+                                                   style="float: right;font-size: 1.1em">Voir
+                                                    la
+                                                    fiche <span class="fas fa-chevron-right"></span></a>
+                                            </div>
+
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <header class="style1">
+                                                <img src="/media/{{ show_id.photo_home }}"
+                                                     alt="Phtoto {{ show_id.slug }}" style="width: 100%">
+                                            </header>
+                                            <div class="feed">
+                                                <br>
+                                                <h2 style="text-align: center">{{ show_id.name|upper }}</h2>
+                                                <p style="margin: 5px;">{{ feed.content }}</p>
+                                                <br>
+                                                <a href="{{ feed.url }}" class="btn btn-black-new"
+                                                   style="float: right;font-size: 1.1em">Voir
+                                                    la
+                                                    fiche <span class="fas fa-chevron-right"></span></a>
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2 class="title"><span class="far fa-landmark"></span> Période historique</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md_12">
+                        <div class="post">
+                            <div class="post-body">
+                                <header class="style1">
+                                    <h2>L'Histoire n'attend que vous !</h2>
+                                </header>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/antiquite">
+                                            <img src="/static/icons/coliseum.svg"
+                                                 style="width:40%; display: block; margin: auto;"
+                                                 title="Antiquité">
+                                            <h2 style="text-align: center">Antiquité</h2></a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/renaissance">
+                                            <img src="/static/icons/casque.svg"
+                                                 style="width:40%;display: block; margin: auto;"
+                                                 title="Renaissance">
+                                            <h2 style="text-align: center">Renaissance</h2></a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/xxe-siecle">
+                                            <img src="/static/icons/war.svg"
+                                                 style="width:40%; display: block; margin: auto;"
+                                                 title="XXème siècle">
+                                            <h2 style="text-align: center">XXème siècle</h2></a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/belle-epoque">
+                                            <img src="/static/icons/lantern.svg"
+                                                 style="width:40%; display: block; margin: auto;"
+                                                 title="Belle Epoque">
+                                            <h2 style="text-align: center">Belle Epoque</h2></a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/grand-siecle">
+                                            <img src="/static/icons/bateau.svg"
+                                                 style="width:40%; display: block; margin: auto;"
+                                                 title="Grand Siècle">
+                                            <h2 style="text-align: center">Grand Siècle</h2></a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-6" style="padding-bottom: 10px;">
+                                        <a href="/period/moyen-age">
+                                            <img src="/static/icons/viking.svg"
+                                                 style="width:40%; display: block; margin: auto;"
+                                                 title="Moyen-Âge">
+                                            <h2 style="text-align: center">Moyen-Âge</h2></a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2 class="title"><span class="fa fa-info"></span> Infos</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md_12">
+
+                        <div class="post">
+                            <div class="post-body">
+                                <header class="style1">
+                                    <h2>Pourquoi un tel site ?</h2>
+                                </header>
+                                <h7>
+                                    Contrairement aux parcs d'attractions, le parc du Puy du Fou<br> se focalise sur
+                                    des spectacles avec
+                                    des
+                                    heures bien définies.
+                                </h7>
+                                <br>
+                                <h7>
+                                    Une journée sur le parc requiert une bonne organisation.<br> Nous avons donc
+                                    créé ce site dans le
+                                    but de
+                                    vous aider à programmer<br> et organiser votre journée sur le parc.
+                                </h7>
+
+
+                            </div>
+                        </div>
+                        <div class="post">
+                            <div class="post-body">
+                                <header class="style1">
+                                    <h2>Rejoignez-nous !</h2>
+                                </header>
+                                <p><b>Vous êtes aussi fan que nous du Puy du Fou ?</b>
+                                    <br>
+                                    Partagez avec nous votre passion à travers des textes, infos, anecdotes,
+                                    avis ou
+                                    encore photos du parc et des specatcles.</p>
+                                <p>Contactez-nous directement à l'adresse : contact@puydinfo.fr</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            -->
+            <div class="col-md-4 smart">
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title"><span class="far fa-rss"></span> Mise à jour du site</h2>
+                    </div>
+                    <div class="post post-widget">
+                        <div class="post-body">
+
+                            {% for new in news %}
+                                <h4>{{ new.name }} - {{ new.date|date:"d/m/y" }}</h4>
+                                <p><span class="fas fa-chevron-right"></span> {{ new.content }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title"><span class="far fa-search"></span> Rechercher</h2>
+                    </div>
+                    <script async src="https://cse.google.com/cse.js?cx=006231464457529073399:x9-kkusxv_k"></script>
+                    <div class="gcse-search"></div>
+                </div>
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title"><span class="far fa-user-friends"></span> Media</h2>
+                    </div>
+                    <div class="social-widget">
+                        <ul>
+                            <li>
+                                <a href="https://www.youtube.com/c/alusio" target="_blank" rel="noopener"
+                                   class="social-youtube">
+                                    <i class="fab fa-youtube"></i>
+                                    <span>Notre chaîne Youtube</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title"><span class="far fa-newspaper"></span> Historique</h2>
+                    </div>
+                    <div class="post post-widget">
+                        <div class="post-body">
+
+                            {% for feed in feeds %}
+                                <h4>{{ feed.title }}</h4>
+                                <p><span class="fas fa-chevron-right"></span> {{ feed.content|slice:":255" }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- social widget -->
+
+
+                <!--
+
+
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title">Categories</h2>
+                    </div>
+                    <div class="category-widget">
+                        <ul>
+                            <li><a href="#">Lifestyle <span>451</span></a></li>
+                            <li><a href="#">Fashion <span>230</span></a></li>
+                            <li><a href="#">Technology <span>40</span></a></li>
+                            <li><a href="#">Travel <span>38</span></a></li>
+                            <li><a href="#">Health <span>24</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+ /social widget
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title">Contactez-nous</h2>
+                    </div>
+                    <div class="newsletter-widget">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <br>
+                            <input type="submit" value="Envoyer" class="btn btn-default" style="font-size: 20px"/>
+                        </form>
+                    </div>
+                </div>
+-->
+                <!-- /newsletter widget -->
+
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2 class="title"><span class="far fa-campground"></span> Animations à découvrir</h2>
+                        </div>
+                    </div>
+                    {% for anim in animation %}
+                        <div class="col-md-6 {% if not forloop.first %}smart{% endif %}">
+                            <div class="post">
+                                <a class="post-img" href="/animation/{{ anim.slug }}"><img lass="mySlides"
+                                                                                           src="/media/{{ anim.photo_home }}"
+                                                                                           alt="Phtoto {{ show.slug }}"></a>
+                                <div class="post-body">
+                                    <div class="post-category">
+                                        {% for name in category %}
+                                            <a href="category.html">{{ name }}</a>
+                                        {% endfor %}
+
+                                    </div>
+                                    <h3 class="post-title title-lg"><a href="/animation/{{ anim.slug }}"
+                                                                       style="color: black !important;">{{ anim.name }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2 class="title"><span class="far fa-place-of-worship"></span> Villes d'Époques à découvrir
+                            </h2>
+                        </div>
+                    </div>
+                    {% for v in ville %}
+                        <div class="col-md-6 {% if not forloop.first %}smart{% endif %} ">
+                            <div class="post">
+                                <a class="post-img" href="/ville/{{ v.slug }}"><img lass="mySlides"
+                                                                                    src="/media/{{ v.photo_home }}"
+                                                                                    alt="Phtoto {{ show.slug }}"></a>
+                                <div class="post-body">
+                                    <div class="post-category">
+                                        {% for name in theme %}
+                                            <a href="category.html">{{ name }}</a>
+                                        {% endfor %}
+
+                                    </div>
+                                    <h3 class="post-title title-lg"><a href="/ville/{{ v.slug }}"
+                                                                       style="color: black !important;">{{ v.name }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+</body>
+</html>

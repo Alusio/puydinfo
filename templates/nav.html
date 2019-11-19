@@ -1,0 +1,745 @@
+{% load staticfiles %}
+{% load active_link_tags %}
+<div id="nav">
+    <!-- Top Nav -->
+    <div id="nav-top">
+        <div class="container">
+            <ul class="nav-social">
+                <li><a href="https://www.youtube.com/c/alusio" target="_blank" rel="noopener"><i
+                        class="fab fa-youtube"></i></a>
+                </li>
+            </ul>
+            <div class="nav-logo">
+                <a href="/index" class="logo"><img src={% static 'logo_puydinfo.png' %} alt=""></a>
+            </div>
+            <div class="nav-btns">
+                <button class="aside-btn"><i class="fa fa-bars"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- /Top Nav -->
+
+    <!-- Main Nav -->
+    <div id="nav-bottom">
+        <div class="container">
+            <!-- nav -->
+
+            <ul class="nav-menu">
+                <li><a href="/index"><span class="far fa-home"></span> Accueil</a></li>
+
+                <li class="has-dropdown megamenu">
+                    <a href="#">Spectacles</a>
+                    <div class="dropdown tab-dropdown">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <ul class="tab-nav">
+                                    <li class="active"><a data-toggle="tab" href="#tab1">Grands spectacles</a></li>
+                                    <li><a data-toggle="tab" href="#tab2">Spectacles immersifs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="dropdown-body tab-content">
+                                    <div id="tab1" class="tab-pane fade in active">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/cinescenie">Cinéscénie</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/triomphe">Le Signe du Triomphe</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/vikings">Les Vikings</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/oiseaux">Le Bal des Oiseaux
+                                                            Fantomes</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/panache">Le Dernier Panache</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/mousquetaire">Mousquetaire de
+                                                            Richelieu</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/lance">Le Secret de la
+                                                            Lance</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/orgues">Les Orgues de Feu</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/chevaliers">Les
+                                                            Chevaliers
+                                                            de la Table Ronde</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab2" class="tab-pane fade in">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/royaume">Le Premier Royaume</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/verdun">Les Amoureux de Verdun</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/perouse">Le Mystère de la
+                                                            Pérouse</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/show/renaissance">La Renaissance du
+                                                            Chateau</a></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="has-dropdown megamenu">
+                    <a href="#">Restaurants</a>
+                    <div class="dropdown tab-dropdown">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <ul class="tab-nav">
+                                    <li class="active"><a data-toggle="tab" href="#tab11">Restaurants animés</a>
+                                    </li>
+                                    <li><a data-toggle="tab" href="#tab21">Restaurants des hôtels</a></li>
+                                    <li><a data-toggle="tab" href="#tab31">Autres restaurants</a></li>
+                                    <li><a data-toggle="tab" href="#tab41">Restauration rapide</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="dropdown-body tab-content">
+                                    <div id="tab11" class="tab-pane fade in active">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/madelon">Le Café de la
+                                                            Madelon</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/relais">Le Relais de Poste</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab21" class="tab-pane fade in">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/couronnes">Les Deux Couronnes</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/ecuyer">L'Ecuyer Tranchant</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/atrium">L'Atrium</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/banquet">Le Banquet de
+                                                            Mérovée</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab31" class="tab-pane fade in">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/auberge">L'Auberge</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/bistrot">Le Bistrot</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/echansonnerie">L'Echansonnerie</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/orangerie">L"Orangerie</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/mijoterie">La Mijoterie du Roy
+                                                            henry</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab41" class="tab-pane fade in">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/taverne">La Taverne</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/ventres_faims">Le
+                                                            Rendez-vous
+                                                            des ventres faims</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/estaminet">L'Estaminet</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/popina">La Popina</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/etang">La Queue de l'Etang</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/garde_manger">Le Garde Manger</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/rotissoire">La Rotissoire</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/gargoulette">La Gargoulette</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/prefou">La Maison du Préfou</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/creperie">L'étape - Crêperie</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="post post-sm">
+                                                    <div class="post-body">
+                                                        <h3><a href="/restaurant/fort">Le Fort de l'An Mil</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+                <li class="has-dropdown megamenu">
+                    <a href="#">Hôtels</a>
+                    <div class="dropdown">
+                        <div class="dropdown-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="post post-sm">
+                                        <div class="post-body">
+                                            <h3><a href="/hotel/citadelle">La Citadelle</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="post post-sm">
+                                        <div class="post-body">
+                                            <h3><a href="/hotel/villa">La Villa Gallo-Romaine</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="post post-sm">
+                                        <div class="post-body">
+                                            <h3><a href="/hotel/drap_dor">Le Camp du Drap d'Or</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="post post-sm">
+                                        <div class="post-body">
+                                            <h3><a href="/hotel/logis">Le Logis de Lescure</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="post post-sm">
+                                        <div class="post-body">
+                                            <h3><a href="/hotel/iles_clovis">Les Iles de Clovis</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                {% if user.is_superuser %}
+                    <li class="has-dropdown megamenu">
+                        <a href="#">Tools</a>
+                        <div class="dropdown">
+                            <div class="dropdown-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/dashboard">Dashboard</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/admin">Database</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><a href="/index"> Guide</a></li>
+                    <li><a href="/index"> Conseils</a></li>
+                {% endif %}
+                <li><a href="/calendrier"> Calendrier</a></li>
+                {% if user.is_authenticated %}
+                    <li class="has-dropdown megamenu">
+                        <a href=""><span class="far fa-map"></span> Ma visite</a>
+                        <div class="dropdown">
+                            <div class="dropdown-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/sejour"><span class="far fa-calendar-day"></span> Mon
+                                                    séjour</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/planner"><span class="far fa-plus"></span> Créer un
+                                                    programme</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if date != "none" %}
+                                        <div class="col-md-3">
+                                            <div class="post post-sm">
+                                                <div class="post-body">
+                                                    <h3><a href="/programme"><span class="far fa-tasks"></span> Mon
+                                                        programme</a>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/groupe"><span class="far fa-users"></span> Mon groupe</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="has-dropdown megamenu">
+                        <a href="/profile"><span class="far fa-user"></span> {{ user.username }}
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="/profile">Profil</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="post post-sm">
+                                            <div class="post-body">
+                                                <h3><a href="{% url 'logout' %}">Déconnecter</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="far fa-user"></span> Connexion</a></li>
+                {% endif %}
+                <li class="has-dropdown nav-menu">
+                    <a href="#"><span class="far fa-exclamation-circle"></span>&nbsp</a>
+                    <div class="dropdown">
+                        <div class="dropdown-body">
+                            <ul class="dropdown-list">
+                                <li><a href="/mentions_legales"> Mentions légales</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- /nav -->
+        </div>
+    </div>
+    <!-- /Main Nav -->
+
+    <!-- Aside Nav -->
+    <div id="nav-aside">
+        <ul class="nav-aside-menu">
+
+            <li><a href="/index"><span class="far fa-home" style="font-size: 1.4em; min-width: 30px;"></span>
+                Accueil</a>
+            </li>
+            {% if user.is_authenticated %}
+
+                <li class="has-dropdown"><a><span class="far fa-user"
+                                                  style="font-size: 1.4em; min-width: 30px;"></span> {{ user.username }}
+                </a>
+                    <ul class="dropdown">
+                        <li><a href="/profile">Profil</a></li>
+                        <li><a href="{% url 'logout' %}">Déconnecter</a></li>
+                    </ul>
+                </li>
+
+            {% else %}
+                <li><a href="{% url 'login' %}"><span class="far fa-user"
+                                                      style="font-size: 1.4em; min-width: 30px;"></span> Connexion</a>
+                </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+
+                <li class="has-dropdown"><a><span class="far fa-map"
+                                                  style="font-size: 1.4em; min-width: 30px;"></span> Ma
+                    journée</a>
+                    <ul class="dropdown">
+                        <li><a href="/sejour"><span class="far fa-calendar-day"></span> Mon séjour</a></li>
+                        <li><a href="/planner"><span class="far fa-plus"></span> Créer un programme</a></li>
+                        {% if date != "none" %}
+                            <li><a href="/programme"><span class="far fa-tasks"></span> Mon programme</a></li>
+                        {% endif %}
+                        <li><a href="/groupe"><span class="far fa-users"></span> Mon groupe</a></li>
+                    </ul>
+                </li>
+
+            {% endif %}
+            <li class="has-dropdown"><a><span class="far fa-theater-masks"
+                                              style="font-size: 1.4em; min-width: 30px;"></span>
+                Spectacles</a>
+                <ul class="dropdown">
+                    <li class="has-dropdown"><a>Grands Spectacles</a>
+                        <ul class="dropdown">
+                            <li><a href="/show/cinescenie">Cinéscénie</a></li>
+                            <li><a href="/show/triomphe">Le Signe du Triomphe</a></li>
+                            <li><a href="/show/vikings">Les Vikings</a></li>
+                            <li><a href="/show/oiseaux">Le Bal des Oiseaux Fantomes</a></li>
+                            <li><a href="/show/panache">Le Dernier Panache</a></li>
+                            <li><a href="/show/mousquetaire">Mousquetaire de Richelieu</a></li>
+                            <li><a href="/show/lance">Le Secret de la Lance</a></li>
+                            <li><a href="/show/orgues">Les Orgues de Feu</a></li>
+                            <li><a href="/show/chevaliers">Les Chevaliers de la Table Ronde</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown"><a>Spectacles immersifs</a>
+                        <ul class="dropdown">
+                            <li><a href="/show/royaume">Le Premier Royaume</a></li>
+                            <li><a href="/show/verdun">Les Amoureux de Verdun</a></li>
+                            <li><a href="/show/perouse">Le Mystère de la Pérouse</a></li>
+                            <li><a href="/show/renaissance">La Renaissance du Chateau</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="has-dropdown"><a><span class="far fa-utensils" style="font-size: 1.4em; min-width: 30px;"></span>
+                Restaurants</a>
+                <ul class="dropdown">
+                    <li class="has-dropdown"><a>Restaurants animés</a>
+                        <ul class="dropdown">
+                            <li><a href="/restaurant/madelon">Le Café de la Madelon</a></li>
+                            <li><a href="/restaurant/relais">Le Relais de Poste</a></li>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown"><a>Restaurants des hôtels</a>
+                        <ul class="dropdown">
+                            <li><a href="/restaurant/couronnes">Les Deux Couronnes</a></li>
+                            <li><a href="/restaurant/ecuyer">L'Ecuyer Tranchant</a></li>
+                            <li><a href="/restaurant/atrium">L'Atrium</a></li>
+                            <li><a href="/restaurant/banquet">Le Banquet de Mérovée</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown"><a>Autres restaurants</a>
+                        <ul class="dropdown">
+                            <li><a href="/restaurant/auberge">L'Auberge</a></li>
+                            <li><a href="/restaurant/bistrot">Le Bistrot</a></li>
+                            <li><a href="/restaurant/echansonnerie">L'Echansonnerie</a></li>
+                            <li><a href="/restaurant/orangerie">L'Orangerie</a></li>
+                            <li><a href="/restaurant/mijoterie">a Mijoterie du Roy
+                                henry</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown"><a>Restauration rapide</a>
+                        <ul class="dropdown">
+                            <li><a href="/restaurant/taverne">La Taverne</a></li>
+                            <li><a href="/restaurant/ventres_faims">Le rendez-vous des ventres faims</a></li>
+                            <li><a href="/restaurant/estaminet">L'Estaminet</a></li>
+                            <li><a href="/restaurant/popina">La Popina</a></li>
+                            <li><a href="/restaurant/etang">La Queue de l'Etang</a></li>
+                            <li><a href="/restaurant/garde_manger">Le Garde Manger</a></li>
+                            <li><a href="/restaurant/rotissoire">La Rotissoire</a></li>
+                            <li><a href="/restaurant/gargoulette">La Gargoulette</a></li>
+                            <li><a href="/restaurant/prefou">La Maison du Préfou</a></li>
+                            <li><a href="/restaurant/creperie">L'étape - Crêperie</a></li>
+                            <li><a href="/restaurant/fort">Le Fort de l'An Mil</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="has-dropdown"><a><span class="far fa-hotel" style="font-size: 1.4em; min-width: 30px;"></span>
+                Hôtels</a>
+                <ul class="dropdown">
+                    <li><a href="/hotel/citadelle">La Citadelle</a></li>
+                    <li><a href="/hotel/villa">La Villa Gallo-Romaine</a></li>
+                    <li><a href="/hotel/drap_dor">Le Camp du Drap d'Or<</a></li>
+                    <li><a href="/hotel/logis">Le Logis de Lescure</a></li>
+                    <li><a href="/hotel/iles_clovis">Les Iles de Clovi</a></li>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="/calendrier"><span class="far fa-calendar-alt"
+                                            style="font-size: 1.4em; min-width: 30px;"></span> Calendrier</a></li>
+            {% if user.is_superuser %}
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/admin">Database</a></li>
+
+            {% endif %}
+            <br>
+            <li class="post" id="btnAdd" style="display: none"><a style=" width: 25%; font-size: 1em;"><span
+                    class="btn btn-menu-new btn-lg">Installer notre application</span></a>
+                <p style="color: white;">En plus elle est légère <span class="far fa-smile-wink"></span></p>
+
+            </li>
+            <!--
+            <li class="has-dropdown"><a>Organiser</a>
+                <ul class="dropdown">
+                    <a href="/planner">Planificateur</a>
+                </ul>
+            </li>
+            -->
+        </ul>
+        <button class="nav-close nav-aside-close"><span></span></button>
+    </div>
+    <!-- /Aside Nav -->
+</div>
+
+<script>
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI notify the user they can add to home screen
+        btnAdd.style.display = 'block';
+    });
+    btnAdd.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        btnAdd.style.display = 'none';
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+            .then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
+    });
+</script>

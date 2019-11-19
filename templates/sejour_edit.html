@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+<html lang="fr">
+
+
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+{% for message in messages %}
+
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+
+    </div>
+{% endfor %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-centered">
+                {% block content %}
+
+                    {{ sejour_form.media }}
+                    <form method="post" class="log">
+                        {% csrf_token %}
+
+                        {% for field in sejour_form %}
+                            <h2>{{ field.label }} : </h2>
+                            <div class="col-md-6">
+                                {{ field|lower }}
+                            </div>
+                            <br>
+                            <br>
+                        {% endfor %}
+                        <br>
+                        <h2>Groupe : </h2>
+                        {% if group == "none" %}
+                            <p>Oh ! Il semble que vous n'avez pas encore créé de groupe.</p>
+                            <p>Dans un groupe, vous définissez avec qui vous partez. <br>
+                                De cette manière, nos algorithmes adaptent votre journée plus précisement.</p>
+                            <a href="/groupe" class="btn btn-black-new"
+                               style="font-size: 20px; width: 300px"><span
+                                    class="fas fa-users"></span> Créer un groupe</a>
+                        {% else %}
+                            <p>Vous pouvez gérer votre groupe depuis ce lien.</p>
+                            <a href="/groupe" class="btn btn-black-new"
+                               style="font-size: 20px; min-width: 300px"><span
+                                    class="fas fa-users"></span> Gérer {{ group.name }}</a>
+                        {% endif %}
+                        <br>
+                        <hr>
+                        <br>
+                        <button class="btn btn-primary-new btn-lg" type="submit">Sauvegarder</button>
+                        <a href="/sejour/delete/{{ id }}" class="btn btn-red-new btn-lg">Supprimer</a>
+                    </form>
+                {% endblock %}
+            </div>
+
+            <br>
+            <div class="col-md-6 col-centered">
+                <div class="section-title">
+                    <h2 class="title"><span class="fas fa-info"></span> Informations</h2>
+                </div>
+                <div class="post post-widget">
+                    <div class="post-body">
+                        <p>Si vous ne savez pas quel restaurant choisir, où si vous apportez votre nourriture, laissez
+                            tel quel.</p>
+                        <p><span class="fas fa-exclamation-circle"></span> Pour le moment il n'est possible de définir
+                            les restaurants que pour la première journée.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+
+{% include "import.html" %}
+<link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+<style>
+    .input-group-text {
+        border: 0px solid !important;
+    }
+
+    .glyphicon {
+        font-size: 1.5em;
+    }
+
+    .input-group-addon {
+        padding: 0px;
+        border-radius: 0px;
+        background-color: transparent;
+        border: 1px solid gray;
+    }
+
+    .input-group-text {
+        background-color: transparent;
+    }
+
+    .form-control {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 0px;
+        border: 1px solid gray;
+    }
+
+    .form-control:focus {
+        border: 2px solid black;
+        outline: none !important;
+    }
+</style>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

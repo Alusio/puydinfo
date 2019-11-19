@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load static %}
+
+<html lang="fr">
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/theme/css/timeline.css' %}">
+
+<head>
+    <title>Outil de planification</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Site permettant de préparer votre voyage au du Puy du Fou"/>
+    <meta name="keywords" content="sites, puy du fou, préparer, programmer, parc, cinéscénie"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+<br>
+<div class="section">
+    <div class="container">
+        <div id="hot-post" class="row hot-post">
+            <div class="col-md-12">
+                <div class=" post">
+                    <div id="content">
+                        <header class="style1">
+                            <h2>Programme du {{ temps }}</h2>
+                            <hr>
+                            <p style="font-size: 1.2em;">Nous avons réussi à programmer <span
+                                    class="label label-success"
+                                    style="font-size: 1em">{{ size }}</span>
+                                spectacles.</p>
+                            <p style="font-size: 1.2em;">Pas satisfait ? <a href="/planner"><span
+                                    class="label label-info"
+                                    style="font-size: 1em">Recommencer</span></a></p>
+                            <p style="color: #ac2925"><span class="far fa-exclamation-triangle"></span>Ce programme ne
+                                garantit pas l'accès aux spectacles et ne fait pas office de réservation pour les
+                                restaurants.</p>
+                            <div class="col-md-3">
+
+                            </div>
+                            <button class="btn btn-black-param btn-lg" id="btn_prog">Programme</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_show">Spectacles immersifs</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_resto">Restaurants</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_info">Informations</button>
+                            <br>
+                            <!--
+                            {% if freq_temps == 1 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-danger"
+                                                                                   style="font-size: 1em">Très forte</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 2 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-danger"
+                                                                                   style="font-size: 1em">Très forte</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 3 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-default"
+                                                                                   style="font-size: 1em">Forte</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 4 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-default"
+                                                                                   style="font-size: 1em">Forte</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 5 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-warning"
+                                                                                   style="font-size: 1em">Moyenne</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 6 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-warning"
+                                                                                   style="font-size: 1em">Moyenne</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 7 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-warning"
+                                                                                   style="font-size: 1em">Moyenne</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 8 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-info"
+                                                                                   style="font-size: 1em">Moyenne à modérée</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 9 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-info"
+                                                                                   style="font-size: 1em">Moyenne à élevée</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 10 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-primary"
+                                                                                   style="font-size: 1em">Modérée</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 11 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-primary"
+                                                                                   style="font-size: 1em">Modérée</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 12 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-success"
+                                                                                   style="font-size: 1em">Faible</span>
+                                </p>
+                            {% endif %}
+                            {% if freq_temps == 400 %}
+                                <p style="font-size: 1.2em;">Fréquentation : <span class="label label-warning"
+                                                                                   style="font-size: 1em">Pas d'information</span>
+                                </p>
+                            {% endif %}
+                            <br>
+                            -->
+                            <br>
+                        </header>
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="page col-md-6" id="cat_prog" style="display: block">
+                            <div class="col-md-12">
+                                <div class="page__demo">
+                                    <div class="main-container page__container">
+                                        <div class="timeline">
+                                            <div class="timeline__group">
+                                                {% for res in resultat %}
+                                                    <div class="timeline__box">
+                                                        <div class="timeline__date">
+                                                            {% if res.2 != 0 %}
+                                                                <span class="timeline__day">{{ res.2 }}</span>
+                                                            {% else %}
+                                                                <span class="timeline__day1"> <span
+                                                                        class="far fa-lightbulb"
+                                                                        style="font-size: 1.3em"></span></span>
+                                                            {% endif %}
+
+                                                        </div>
+                                                        <div class="timeline__post">
+                                                            <div class="timeline__content">
+                                                                {% if res.5 == 0 %}
+                                                                    <h4><span
+                                                                            class="label label-default"
+                                                                            style="font-size: 0.8em;">Spectacle</span>
+                                                                    </h4>
+                                                                {% elif res.5 == 1 %}
+                                                                    <h4><span
+                                                                            class="label label-info"
+                                                                            style="font-size: 0.8em;">Continu</span>
+                                                                    </h4>
+                                                                {% elif res.5 == 2 %}
+                                                                    <h4><span
+                                                                            class="label label-warning"
+                                                                            style="font-size: 0.8em;">Restaurant</span>
+                                                                    </h4>
+                                                                {% endif %}
+                                                                <h3>{{ res.0 }} - {{ res.1 }}</h3>
+                                                                <h4>Durée : <span
+                                                                        style="color: #008080;">{{ res.3 }} minutes</span>
+                                                                </h4>
+                                                                {% if res.6 %}
+                                                                    <h4> Ouverture des tribunes : <span
+                                                                            style="color: #aa3939;">{{ res.6|slice:":5" }}</span>
+                                                                    </h4>
+                                                                {% endif %}
+                                                                {% if res.2 != 0 %}
+                                                                    <h4> Fin estimée : <span
+                                                                            style="color: #aa3939;">{{ res.4|slice:":5" }}</span>
+                                                                    </h4>
+                                                                {% else %}
+                                                                    <p>Spectacle suggéré en raison d'un temps libre.</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6" id="cat_resto" style="display: none">
+                <div class="col-md-12">
+                    <div class="post">
+                        <div id="content">
+                            <header class="style1">
+                                <h2>Restaurants</h2>
+                                <hr>
+                            </header>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-utensils"></span> Pour le midi</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% if programme.name_resto_midi != '"none"' %}
+                                        {% if programme.suggest == '1' %}
+                                            <p style="font-size: 1.2em;">Vous avons trouvé pour vous le restaurant
+                                                idéal.<br>
+                                                Pas très loin du spectacle<br>
+                                                <b>{{ programme.name_show_midi }}</b>,<br> le
+                                                restaurant
+                                                <b>{{ programme.name_resto_midi }}</b> est parfait !<br>
+                                                Les prix commencent à <b>{{ programme.price_show_midi }}</b> €.</p>
+                                        {% else %}
+                                            <p style="font-size: 1.2em;">Nous avons ajouté dans votre programme le
+                                                restaurant
+                                                <b>{{ programme.name_resto_midi }}</b>.</p>
+                                            <p style="font-size: 1.2em;"><span class="far fa-phone"></span> Pensez à
+                                                réserver au <b>08 20 09 10 10</b></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p style="font-size: 1.2em;">Vous apportez un délicieux repas.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-utensils"></span> Pour le soir</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% if programme.name_resto_midi != '"none"' %}
+                                        {% if programme.suggest_soir == '1' %}
+                                            <p style="font-size: 1.2em;">Vous avons trouvé pour vous un super
+                                                restaurant.<br>
+                                                Proche du spectacle <br> <b>{{ programme.name_show_soir }}</b>,<br> le
+                                                restaurant
+                                                <b>{{ programme.name_resto_soir }}</b> est parfait !<br>
+                                                Les prix commencent à <b>{{ programme.price_show_soir }}</b> €.</p>
+                                        {% else %}
+                                            <p style="font-size: 1.2em;">Nous avons ajouté dans votre programme le
+                                                restaurant
+                                                <b>{{ programme.name_resto_soir }}</b>.</p>
+                                            <p style="font-size: 1.2em;"><span class="far fa-phone"></span> Pensez à
+                                                réserver au <b>08 20 09 10 10</b></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p style="font-size: 1.2em;">Vous apportez un délicieux repas.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="cat_show" style="display: none">
+                <div class="col-md-12">
+                    <div class="post">
+                        <div id="content">
+                            <header class="style1">
+                                <h2>Spectacles immersifs<br> (en continu)</h2>
+                                <hr>
+                            </header>
+                            <p style="font-size: 1.2em;">Les spectacles suivants sont en continu.<br> Voici leurs
+                                horaires :
+                            </p>
+                            <br>
+                            {% for res in resultat_im %}
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3>{{ res.0 }} - {{ res.1 }}</h3>
+                                        <p style="font-size: 1.1em;">Durée : <b
+                                                style="color: #008080; font-size: 1.2em">{{ res.2 }} minutes</b></p>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p style="font-size: 1.2em">De <b>{{ res.3 }}</b> à <b>{{ res.4 }}</b></p>
+                                        {% if res.5 is not None and res.4 is not None %}
+                                            <p style="font-size: 1.2em">De <b>{{ res.5 }}</b> à <b>{{ res.6 }}</b></p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="cat_info" style="display: none">
+                <div class="col-md-12">
+                    <div class="post">
+                        <div id="content">
+                            <header class="style1">
+                                <h2>Informations</h2>
+                                <hr>
+                            </header>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Important</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p style="font-size: 1.1em"><span class="far fa-exclamation-circle"
+                                                                      style="font-size: 1.5em"></span> Les spectacles en
+                                        continu sont
+                                        suggérés suite à la présence d'un temps libre de plus de 50 min.</p>
+                                    <p style="font-size: 1.1em"><span class="far fa-exclamation-triangle"
+                                                                      style="font-size: 1.5em"></span> Le
+                                        programme suivant n'est
+                                        qu'une
+                                        suggestion. Il a été généré à partir d'un algorithme créé de manière
+                                        indépendante et sans aucun lien avec le Puy du Fou.
+                                    </p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-lightbulb"></span> Suggestions</h3>
+                                </div>
+                                <div class="panel-body">
+
+
+                                    <p style="font-size: 1.2em;">Nous avons trouvé différents moments dans la journée
+                                        avec
+                                        un temps libre
+                                        permettant de faire des spectacles en continus.</p>
+                                    <p style="font-size: 1.2em;">Les spectacles suggérés sont marqués avec le symbole
+                                        <span
+                                                class="far fa-lightbulb" style="font-size: 1.5em"></span></p>
+                                    <br>
+
+
+                                    {% for res in hor_finder %}
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p style="font-size: 1.1em;"><b style="color: #aa3939">{{ res.2 }}</b>
+                                                    de
+                                                    temps libre</p>
+                                                <p style="font-size: 1.1em;">
+                                                    Entre <b>{{ res.0 }}</b> <br/>et <b>{{ res.1 }}</b>
+                                                    <br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Légende</h3>
+                                </div>
+                                <div class="panel-body">
+
+                                    <p style="font-size: 1.2em"><span
+                                            class="label label-info">Continu</span> Spectacle en continu</p>
+                                    <p style="font-size: 1.2em"><span
+                                            class="label label-default">Spectacle</span> Spectacle normal</p>
+                                    <p style="font-size: 1.2em"><span
+                                            class="far fa-lightbulb" style="font-size: 1.5em"></span> Suggestion</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section" style="height: 30%">
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+<link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        var name = "";
+        event.preventDefault();
+        name = caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith("django-pwa-")))
+            );
+        });
+        name.then(function (result) {
+            caches.open(result)
+                .then(cache => {
+                    return cache.addAll(['/programme']);
+                });
+        });
+    });
+
+    $('#btn_prog').click(function (event) {
+        document.getElementById("cat_prog").style.display = "block";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_show").style.display = "none";
+        document.getElementById("cat_info").style.display = "none";
+    });
+    $('#btn_resto').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "block";
+        document.getElementById("cat_show").style.display = "none";
+        document.getElementById("cat_info").style.display = "none";
+    });
+    $('#btn_show').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_show").style.display = "block";
+        document.getElementById("cat_info").style.display = "none";
+    });
+    $('#btn_info').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_show").style.display = "none";
+        document.getElementById("cat_info").style.display = "block";
+    });
+</script>
+</body>
+</html>

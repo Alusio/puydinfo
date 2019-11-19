@@ -1,0 +1,37 @@
+<svg id="Capa_1" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512"
+     xmlns="http://www.w3.org/2000/svg">
+    <path d="m336 215.5v40h-32v-40h-32v40h-32v-40h-32v40h-32v-40h-32v216h224v-216z" fill="#c8d1da"/>
+    <g fill="#92a2b5">
+        <path d="m352 215.5h16v216h-16z"/>
+        <path d="m280 431.5v-40c0-13.255-10.745-24-24-24-13.255 0-24 10.745-24 24v40"/>
+        <path d="m176 287.5h32v32h-32z"/>
+        <path d="m240 287.5h32v32h-32z"/>
+        <path d="m304 287.5h32v32h-32z"/>
+        <path d="m144 351.5h32v32h-32z"/>
+        <path d="m336 367.5h32v32h-32z"/>
+    </g>
+    <path d="m32 183.5h112v248h-112z" fill="#c8d1da"/>
+    <path d="m32 335.5h32v32h-32z" fill="#92a2b5"/>
+    <path d="m368 183.5h112v248h-112z" fill="#c8d1da"/>
+    <path d="m464 183.5h16v248h-16z" fill="#92a2b5"/>
+    <path d="m128 183.5h16v248h-16z" fill="#92a2b5"/>
+    <path d="m448 343.5h32v32h-32z" fill="#92a2b5"/>
+    <path d="m72 215.5h32v48h-32z" fill="#92a2b5"/>
+    <path d="m408 215.5h32v48h-32z" fill="#92a2b5"/>
+    <path d="m344 183.5v-104h32v40h32v-40h32v40h32v-40h32v104z" fill="#c8d1da"/>
+    <path d="m488 79.5h16v104h-16z" fill="#92a2b5"/>
+    <path d="m8 183.5v-104h32v40h32v-40h32v40h32v-40h32v104z" fill="#c8d1da"/>
+    <path d="m152 79.5h16v104h-16z" fill="#92a2b5"/>
+    <path d="m48 144h16v15h-16z" fill="#fff"/>
+    <path d="m112 144h16v15h-16z" fill="#fff"/>
+    <path d="m416 144h16v15h-16z" fill="#fff"/>
+    <path d="m111 208.5h-47v63h47zm-15 48h-17v-33h17z"/>
+    <path d="m168 327.5h47v-47h-47zm15-32h17v17h-17z"/>
+    <path d="m232 327.5h47v-47h-47zm15-32h17v17h-17z"/>
+    <path d="m343 280.5h-47v47h47zm-15 32h-17v-17h17z"/>
+    <path d="m447 208.5h-47v63h47zm-15 48h-17v-33h17z"/>
+    <path d="m487 424.5v-233h24v-119h-47v40h-17v-40h-47v40h-17v-40h-47v119h24v17h-32v40h-17v-40h-47v40h-17v-40h-47v40h-17v-40h-32v-17h24v-119h-47v40h-17v-40h-47v40h-17v-40h-47v119h24v40h15v-40h97v233h-97v-49h25v16h15v-16h17v-15h-25v-17h9v-15h-41v-81h-15v177h-24v15h416v-15h-41v-233h97v145h-48v15h16v17h-24v15h16v16h15v-16h25v41h-40v15h80v-15zm-472-337h17v40h47v-40h17v40h47v-40h17v89h-145zm41 256v17h-17v-17zm304 49h-17v-17h17zm-209-16v-17h17v17zm121 48h-33v-33c0-9.098 7.402-16.5 16.5-16.5s16.5 7.402 16.5 16.5zm15 0v-33c0-17.369-14.131-31.5-31.5-31.5s-31.5 14.131-31.5 31.5v33h-73v-33h25v16h15v-16h17v-15h-25v-17h17v-15h-49v-121h17v40h47v-40h17v40h47v-40h17v40h47v-40h17v137h-25v-17h-15v17h-8v15h16v17h-16v15h48v17zm64-337h17v40h47v-40h17v40h47v-40h17v89h-145zm104 281v-17h17v17z"/>
+    <path d="m80 144.5h16v15h-16z"/>
+    <path d="m384 144.5h16v15h-16z"/>
+    <path d="m448 144.5h16v15h-16z"/>
+</svg>

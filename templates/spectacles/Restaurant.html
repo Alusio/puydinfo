@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+
+<html lang="fr">
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    {% progressive_web_app_meta %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Restaurant {{ show.name }}">
+    <meta name="keywords" content="restaurant,{{ show.name }}">
+    <meta name="author" content="Alusio">
+    <title>{{ show.name }}</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+
+    <div id="post-header" class="page-header">
+        <div class="page-header-bg" style="background-image: url({{ show.photo_banner.url }});"
+             data-stellar-background-ratio="0.5"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 text-center">
+                    <h1 class="text-uppercase">{{ show.name }}</h1>
+                    <p class="lead">{% for t in type %}{{ t }}{% if not forloop.last %} - {% endif %}{% endfor %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% include 'legales_js.html' %}
+<div class="section">
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-8">
+                <!-- post content -->
+                <div class="section-row">
+                    <h3>Présentation</h3>
+                    <p>{{ show.content }}</p>
+                    <br>
+                    <blockquote class="blockquote2">
+                        <br>
+                        <h2><b>Infos rapides</b></h2>
+                        <br>
+                        <ul>
+                            <li style="font-size: 25px"><span class="far fa-tag"></span> Catégorie :
+                                <b>{{ price }}</b></li>
+                            {% if show.exact_price == True %}
+                                <li style="font-size: 25px"><span class="far fa-money-bill-wave"></span> Prix :
+                                    <b> Adulte : {{ show.price_adult }} €</b> / <b> Enfant : {{ show.price_child }}
+                                        €</b>
+                                </li>
+                            {% else %}
+                                <li style="font-size: 25px"><span class="far fa-money-bill-wave"></span> Prix :
+                                    <b> à partie de {{ show.price_general }} €</b>
+                                </li>
+                            {% endif %}
+
+                            <li style="font-size: 25px"><span class="far fa-question"></span> Type :
+                                <b>{% for c in category %}{{ c }}{% if not forloop.last %} - {% endif %}{% endfor %}</b>
+                            </li>
+                            <li style="font-size: 25px"><span class="far fa-landmark"></span> Période :
+                                <b>{% for c in theme %}{{ c }}{% if not forloop.last %} - {% endif %}{% endfor %}</b>
+                            </li>
+                        </ul>
+
+                    </blockquote>
+                    <br>
+                    <hr>
+                    <!--
+    <h2><span class="fas fa-comments"></span> Conseils</h2>
+    <h4>Bientôt</h4>
+    <br>
+    <hr>
+    <h2><span class="fas fa-map-marker"></span> Localisation</h2>
+    <h4>Bientôt</h4>
+    <br>
+    <hr>
+    <h2><span class="far fa-lightbulb"></span> Le saviez-vous ?</h2>
+    <h4>Bientôt</h4>
+    <br>
+    <hr>
+    -->                    {% if photos %}
+                    <h2><span class="fas fa-camera-retro"></span> Photos</h2>
+                    <br>
+
+                    <div class="w3-center">
+                        <div class="w3-section">
+                            <button class="btn btn-red-new" onclick="plusDivs(-1)">❮ Précédent</button>
+                            <button class="btn btn-red-new" onclick="plusDivs(1)">Suivant ❯</button>
+                        </div>
+                    </div>
+                    <br>
+                    <img class="w3-content w3-display-container">
+                    {% for photo in photos %}
+                        <div class="mySlides">
+                            <img src="/media/{{ photo }}" style="width:100%"
+                                 title="Photo de {{ photo.author }}">
+                            <br>
+                            <p>Photo de {{ photo.author }}</p>
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <br>
+            </div>
+            <div class="col-md-4 smart">
+
+                {% if show.url %}
+                    <a href="{{ show.url }}" class="btn btn-red-new" style="font-size: 25px" target="_blank"
+                       rel="noopener">Voir sur le site officiel
+                        <span class="fas fa-external-link-alt"></span></a>
+                {% endif %}
+            </div>
+            <!--
+            <h2><span class="fa fa-trophy"></span> Récompenses</h2>
+            <h4>Meilleure Evènement Européenne</h4>
+            <h4>26 Octobre 2014</h4>
+            <p>Le Puy du Fou voit son spectacle phare, La Cinéscénie, récompensé. C’est tout le savoir-faire mis
+                au service de cette superproduction qui est primé. </p>
+            -->
+        </div>
+        <!-- /post content
+        <div class="col-md-4">
+
+            <div class="aside-widget">
+                <div class="section-title">
+                    <h2 class="title">Autres restaurants</h2>
+                </div>
+                <h3>Bientôt</h3>
+            </div>
+
+        </div>
+        -->
+    </div>
+
+</div>
+<!-- /row -->
+</div>
+<!-- /container -->
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+<script type="text/javascript">
+    let slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        let i;
+        let x = document.getElementsByClassName("mySlides");
+        if (n > x.length) {
+            slideIndex = 1
+        }
+        if (n < 1) {
+            slideIndex = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+</script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "mon_site",
+  "version": "1.0.0",
+  "dependencies": {
+    "ol": "^5.3.0"
+  },
+  "description": "puydinfo",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "other"
+  },
+  "author": "",
+  "license": "ISC"
+}

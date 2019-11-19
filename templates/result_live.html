@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load static %}
+
+<html lang="fr">
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/theme/css/timeline.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/parameter.css' %}">
+
+<head>
+    <title>Outil de planification</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Site permettant de préparer votre voyage au du Puy du Fou"/>
+    <meta name="keywords" content="sites, puy du fou, préparer, programmer, parc, cinéscénie"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+<br>
+<div class="section">
+    <div class="container">
+        <div id="hot-post" class="row hot-post">
+            <div class="col-md-12">
+                <div class=" post">
+                    <div id="content">
+                        <header class="style1">
+                            <h2>Programme du {{ temps }}</h2>
+                            <hr>
+                            <p style="color: #ac2925"><span class="far fa-exclamation-triangle"></span>Ce programme ne
+                                garantit pas l'accès aux spectacles et ne fait pas office de réservation pour les
+                                restaurants.</p>
+                            <div class="col-md-3">
+
+                            </div>
+                            <button class="btn btn-black-param btn-lg" id="btn_live">Live</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_prog">Programme</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_resto">Restaurants</button>
+                            <button class="btn btn-black-param btn-lg" id="btn_info">Informations</button>
+                            <br>
+
+                            <br>
+                        </header>
+                        <form action="" method="POST" class="sombre" id="regForm">
+                            {% csrf_token %}
+
+                            <input name="temps_form" type="hidden" value="{{ temps_form }}">
+                            <input name="choix" type="hidden" value="{{ choix }}">
+                            <input name="temps_midi" type="hidden" value="{{ temps_midi }}">
+                            <input name="temps_debut" type="hidden" value="{{ temps_debut }}">
+                            <input name="prix_min" type="hidden" value="{{ prix_min }}">
+                            <input name="prix_max" type="hidden" value="{{ prix_max }}">
+                            <input name="resto_type" type="hidden" value="{{ resto_type }}">
+                            <input name="resto" type="hidden" value="{{ resto }}">
+                            <input name="select_resto_anime" type="hidden" value="{{ select_resto_anime }}">
+                            <input name="prix_min_soir" type="hidden" value="{{ prix_min_soir }}">
+                            <input name="prix_max_soir" type="hidden" value="{{ prix_max_soir }}">
+                            <input name="select_resto_anime_soir" type="hidden" value="{{ select_resto_anime_soir }}">
+                            <input name="resto_soir" type="hidden" value="{{ resto_soir }}">
+                            <input name="resto_type_soir" type="hidden" value="{{ resto_type_soir }}">
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h2 class="modal-title" id="exampleModalLabel">Attention !</h2>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            Voulez-vous recalculer un nouveau programme ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-red-new" data-dismiss="modal">Annuler
+                                            </button>
+                                            <button class="btn btn-primary-new" type="submit" data-dismiss="modal"
+                                                    onclick="myFonct()">
+                                                Recalculer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Modal -->
+
+                        <div>
+                            <div class="loader" id="loader"
+                                 style="display: none; margin-left: auto; margin-right: auto;">
+                                <div class="sk-folding-cube">
+                                    <div class="sk-cube1 sk-cube"></div>
+                                    <div class="sk-cube2 sk-cube"></div>
+                                    <div class="sk-cube4 sk-cube"></div>
+                                    <div class="sk-cube3 sk-cube"></div>
+                                </div>
+                            </div>
+                            <div class="loader" id="loader2"
+                                 style="display: none; margin-left: auto; margin-right: auto;">
+                                <h3 style="text-align: center">Nous allons recalculer un nouveau programme.</h3>
+                                <h3 style="text-align: center">Les mêmes paramètres seront appliqués.</h3>
+                            </div>
+                        </div>
+                        <div class="page col-md-6" id="cat_live" style="display: block">
+                            <div class="col-md-12">
+                                <div class="page__demo">
+                                    <div class="main-container page__container">
+                                        <div class="timeline">
+                                            <div class="timeline__group" style="display: block">
+                                                <div class="timeline__date">
+                                                    <span class="timeline__day">Actuellement</span>
+                                                </div>
+                                            </div>
+                                            <div class="timeline__group" style="display: block" id="card_empty">
+                                                <div class="timeline__box">
+                                                    <div class="timeline__post">
+                                                        <div class="timeline__content">
+                                                            <h3>Pas de spectacle en cours.</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="timeline__group" style="display: none" id="card_full">
+                                                <div class="timeline__box">
+                                                    <div class="timeline__date">
+                                                        <span class="timeline__day" id="card_time">HEURE</span>
+                                                    </div>
+                                                    <div class="timeline__post">
+                                                        <div class="timeline__content">
+                                                            <h3 id="card_id" style="display: none">NU</h3>
+                                                            <h3 id="card_info">NUM - NOM</h3>
+                                                            <h4>Durée : <span
+                                                                    style="color: #008080;"
+                                                                    id="card_duree">.. minutes</span>
+                                                            </h4>
+
+                                                            <h4> Ouverture des tribunes : <span
+                                                                    style="color: #aa3939;" id="card_open">..:..</span>
+                                                            </h4>
+
+                                                            <h4> Fin estimée : <span
+                                                                    style="color: #aa3939;" id="card_end">..:..</span>
+                                                            </h4>
+                                                            <br>
+                                                            <div id="validated" style="display: none">
+                                                                <span class="far fa-check-circle"
+                                                                      style="color: green; font-size: 30px;"></span>
+                                                                <h7 style="font-size: 20px;"> Fait</h7>
+                                                            </div>
+                                                            <div id="question">
+                                                                <p>Marquer ce spectacle comme fait ?</p>
+                                                                <button class="btn btn-primary-new btn-lg"
+                                                                        onclick="valid()">
+                                                                    <span class="far fa-check"></span> OUI
+                                                                </button>
+                                                                <button type="button" class="btn btn-red-new btn-lg"
+                                                                        data-toggle="modal" data-target="#exampleModal">
+                                                                    <span class="far fa-times"></span> NON
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="timeline__group" style="display: block">
+                                                <div class="timeline__date">
+                                                    <span class="timeline__day">Prochainement</span>
+                                                </div>
+                                            </div>
+                                            <div class="timeline__group" style="display: block" id="card_empty2">
+                                                <div class="timeline__box">
+                                                    <div class="timeline__post">
+                                                        <div class="timeline__content">
+                                                            <h3>Pas de spectacle en cours.</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="timeline__group" style="display: none" id="card_full2">
+                                                <div class="timeline__box">
+                                                    <div class="timeline__date">
+                                                        <span class="timeline__day" id="card_time2">HEURE</span>
+                                                    </div>
+                                                    <div class="timeline__post">
+                                                        <div class="timeline__content">
+                                                            <h3 id="card_info2">NUM - NOM</h3>
+                                                            <h4>Durée : <span
+                                                                    style="color: #008080;"
+                                                                    id="card_duree2">.. minutes</span>
+                                                            </h4>
+
+                                                            <h4> Ouverture des tribunes : <span
+                                                                    style="color: #aa3939;" id="card_open2">..:..</span>
+                                                            </h4>
+
+                                                            <h4> Fin estimée : <span
+                                                                    style="color: #aa3939;" id="card_end2">..:..</span>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="page col-md-6" id="cat_prog" style="display: none">
+                            <div class="col-md-12">
+                                <div class="page__demo">
+                                    <div class="main-container page__container">
+                                        <div class="timeline">
+                                            <div class="timeline__group">
+                                                {% for res in resultat %}
+                                                    <div class="timeline__box">
+                                                        <div class="timeline__date">
+                                                            {% if res.2 != 0 %}
+                                                                <span class="timeline__day">{{ res.2 }}</span>
+                                                            {% else %}
+                                                                <span class="timeline__day1"> <span
+                                                                        class="far fa-lightbulb"
+                                                                        style="font-size: 1.3em"></span></span>
+                                                            {% endif %}
+
+                                                        </div>
+                                                        <div class="timeline__post">
+                                                            <div class="timeline__content">
+                                                                {% if res.5 == 0 %}
+                                                                    <h4><span
+                                                                            class="label label-default"
+                                                                            style="font-size: 0.8em;">Spectacle</span>
+                                                                    </h4>
+                                                                {% elif res.5 == 1 %}
+                                                                    <h4><span
+                                                                            class="label label-info"
+                                                                            style="font-size: 0.8em;">Continu</span>
+                                                                    </h4>
+                                                                {% elif res.5 == 2 %}
+                                                                    <h4><span
+                                                                            class="label label-warning"
+                                                                            style="font-size: 0.8em;">Restaurant</span>
+                                                                    </h4>
+                                                                {% endif %}
+                                                                <h3>{{ res.0 }} - {{ res.1 }}</h3>
+                                                                <h4>Durée : <span
+                                                                        style="color: #008080;">{{ res.3 }} minutes</span>
+                                                                </h4>
+                                                                {% if res.6 %}
+                                                                    <h4> Ouverture des tribunes : <span
+                                                                            style="color: #aa3939;">{{ res.6|slice:":5" }}</span>
+                                                                    </h4>
+                                                                {% endif %}
+                                                                {% if res.2 != 0 %}
+                                                                    <h4> Fin estimée : <span
+                                                                            style="color: #aa3939;">{{ res.4|slice:":5" }}</span>
+                                                                    </h4>
+                                                                {% else %}
+                                                                    <p>Spectacle suggéré en raison d'un temps libre.</p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6" id="cat_resto" style="display: none">
+                <div class="col-md-12">
+                    <div class="post">
+                        <div id="content">
+                            <header class="style1">
+                                <h2>Restaurants</h2>
+                                <hr>
+                            </header>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-utensils"></span> Pour le midi</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% if programme.name_resto_midi != '"none"' %}
+                                        {% if programme.suggest == '1' %}
+                                            <p style="font-size: 1.2em;">Vous avons trouvé pour vous le restaurant
+                                                idéal.<br>
+                                                Pas très loin du spectacle<br>
+                                                <b>{{ programme.name_show_midi }}</b>,<br> le
+                                                restaurant
+                                                <b>{{ programme.name_resto_midi }}</b> est parfait !<br>
+                                                Les prix commencent à <b>{{ programme.price_show_midi }}</b> €.</p>
+                                        {% else %}
+                                            <p style="font-size: 1.2em;">Nous avons ajouté dans votre programme le
+                                                restaurant
+                                                <b>{{ programme.name_resto_midi }}</b>.</p>
+                                            <p style="font-size: 1.2em;"><span class="far fa-phone"></span> Pensez à
+                                                réserver au <b>08 20 09 10 10</b></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p style="font-size: 1.2em;">Vous apportez un délicieux repas.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-utensils"></span> Pour le soir</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% if programme.name_resto_midi != '"none"' %}
+                                        {% if programme.suggest_soir == '1' %}
+                                            <p style="font-size: 1.2em;">Vous avons trouvé pour vous un super
+                                                restaurant.<br>
+                                                Proche du spectacle <br> <b>{{ programme.name_show_soir }}</b>,<br> le
+                                                restaurant
+                                                <b>{{ programme.name_resto_soir }}</b> est parfait !<br>
+                                                Les prix commencent à <b>{{ programme.price_show_soir }}</b> €.</p>
+                                        {% else %}
+                                            <p style="font-size: 1.2em;">Nous avons ajouté dans votre programme le
+                                                restaurant
+                                                <b>{{ programme.name_resto_soir }}</b>.</p>
+                                            <p style="font-size: 1.2em;"><span class="far fa-phone"></span> Pensez à
+                                                réserver au <b>08 20 09 10 10</b></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p style="font-size: 1.2em;">Vous apportez un délicieux repas.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="cat_info" style="display: none">
+                <div class="col-md-12">
+                    <div class="post">
+                        <div id="content">
+                            <header class="style1">
+                                <h2>Informations</h2>
+                                <hr>
+                            </header>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Important</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p style="font-size: 1.1em"><span class="far fa-exclamation-circle"
+                                                                      style="font-size: 1.5em"></span> Les spectacles en
+                                        continu sont
+                                        suggérés suite à la présence d'un temps libre de plus de 50 min.</p>
+                                    <p style="font-size: 1.1em"><span class="far fa-exclamation-triangle"
+                                                                      style="font-size: 1.5em"></span> Le
+                                        programme suivant n'est
+                                        qu'une
+                                        suggestion. Il a été généré à partir d'un algorithme créé de manière
+                                        indépendante et sans aucun lien avec le Puy du Fou.
+                                    </p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3><span class="far fa-lightbulb"></span> Suggestions</h3>
+                                </div>
+                                <div class="panel-body">
+
+
+                                    <p style="font-size: 1.2em;">Nous avons trouvé différents moments dans la journée
+                                        avec
+                                        un temps libre
+                                        permettant de faire des spectacles en continus.</p>
+                                    <p style="font-size: 1.2em;">Les spectacles suggérés sont marqués avec le symbole
+                                        <span
+                                                class="far fa-lightbulb" style="font-size: 1.5em"></span></p>
+                                    <br>
+
+
+                                    {% for res in hor_finder %}
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p style="font-size: 1.1em;"><b style="color: #aa3939">{{ res.2 }}</b>
+                                                    de
+                                                    temps libre</p>
+                                                <p style="font-size: 1.1em;">
+                                                    Entre <b>{{ res.0 }}</b> <br/>et <b>{{ res.1 }}</b>
+                                                    <br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Légende</h3>
+                                </div>
+                                <div class="panel-body">
+
+                                    <p style="font-size: 1.2em"><span
+                                            class="label label-info">Continu</span> Spectacle en continu</p>
+                                    <p style="font-size: 1.2em"><span
+                                            class="label label-default">Spectacle</span> Spectacle normal</p>
+                                    <p style="font-size: 1.2em"><span
+                                            class="far fa-lightbulb" style="font-size: 1.5em"></span> Suggestion</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section" style="height: 30%">
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+<link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+<script>
+
+    $('#btn_prog').click(function (event) {
+        document.getElementById("cat_prog").style.display = "block";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_info").style.display = "none";
+        document.getElementById("cat_live").style.display = "none";
+    });
+    $('#btn_resto').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "block";
+        document.getElementById("cat_info").style.display = "none";
+        document.getElementById("cat_live").style.display = "none";
+    });
+
+    $('#btn_info').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_info").style.display = "block";
+        document.getElementById("cat_live").style.display = "none";
+    });
+
+    $('#btn_live').click(function (event) {
+        document.getElementById("cat_prog").style.display = "none";
+        document.getElementById("cat_resto").style.display = "none";
+        document.getElementById("cat_info").style.display = "none";
+        document.getElementById("cat_live").style.display = "block";
+    });
+
+
+    var d = new Date('September 14 2019 13:30');
+    var now = d.getTime();
+    var res = '{{resultat|js}}';
+    document.getElementById("card_full").style.display = "none";
+    document.getElementById("card_empty").style.display = "block";
+    JSON.parse(res).forEach(function (element) {
+        if (element[2] != 0) {
+            var time = d.setHours(element[6].slice(0, 2), element[6].slice(3, 5));
+            var nextTime = d.setHours(element[4].slice(0, 2), element[4].slice(3, 5));
+
+            if (time <= now && now <= nextTime) {
+                console.log(element);
+                document.getElementById("card_full").style.display = "block";
+                document.getElementById("card_empty").style.display = "none";
+                document.getElementById("card_time").innerHTML = element[2];
+                document.getElementById("card_info").innerHTML = element[0] + " - " + element[1];
+                document.getElementById("card_duree").innerHTML = element[3] + " minutes";
+                document.getElementById("card_open").innerHTML = element[6].slice(0, 5);
+                document.getElementById("card_end").innerHTML = element[4].slice(0, 5);
+                document.getElementById("card_id").innerHTML = element[0]
+            }
+        }
+    });
+
+    var ok = true;
+    var count = 0;
+    var dt = new Date('September 14 2019 13:20');
+    dt.setMinutes(dt.getMinutes() + 10);
+    while (ok && count <= 50) {
+        dt.setMinutes(dt.getMinutes() + 30);
+        now = dt.getTime();
+        JSON.parse(res).forEach(function (element) {
+            if (element[2] != 0) {
+                var time = d.setHours(element[6].slice(0, 2), element[6].slice(3, 5));
+                var nextTime = d.setHours(element[4].slice(0, 2), element[4].slice(3, 5));
+
+                if (time <= now && now <= nextTime) {
+                    ok = false;
+                    console.log(element);
+                    document.getElementById("card_full2").style.display = "block";
+                    document.getElementById("card_empty2").style.display = "none";
+                    document.getElementById("card_time2").innerHTML = element[2];
+                    document.getElementById("card_info2").innerHTML = element[0] + " - " + element[1];
+                    document.getElementById("card_duree2").innerHTML = element[3] + " minutes";
+                    document.getElementById("card_open2").innerHTML = element[6].slice(0, 5);
+                    document.getElementById("card_end2").innerHTML = element[4].slice(0, 5);
+                }
+            }
+        });
+        count++;
+    }
+
+    setInterval(function () {
+        var d = new Date('September 14 2019 13:30');
+        var now = d.getTime();
+        var res = '{{resultat|js}}';
+        document.getElementById("card_full").style.display = "none";
+        document.getElementById("card_empty").style.display = "block";
+        JSON.parse(res).forEach(function (element) {
+            if (element[2] != 0) {
+                var time = d.setHours(element[6].slice(0, 2), element[6].slice(3, 5));
+                var nextTime = d.setHours(element[4].slice(0, 2), element[4].slice(3, 5));
+
+                if (time <= now && now <= nextTime) {
+                    console.log(element);
+                    document.getElementById("card_full").style.display = "block";
+                    document.getElementById("card_empty").style.display = "none";
+                    document.getElementById("card_time").innerHTML = element[2];
+                    document.getElementById("card_info").innerHTML = element[0] + " - " + element[1];
+                    document.getElementById("card_duree").innerHTML = element[3] + " minutes";
+                    document.getElementById("card_open").innerHTML = element[6].slice(0, 5);
+                    document.getElementById("card_end").innerHTML = element[4].slice(0, 5);
+                    document.getElementById("card_id").innerHTML = element[0]
+                }
+            }
+        });
+
+        var ok = true;
+        var count = 0;
+        var dt = new Date('September 14 2019 13:20');
+        dt.setMinutes(dt.getMinutes() + 10);
+        while (ok && count <= 50) {
+            dt.setMinutes(dt.getMinutes() + 30);
+            now = dt.getTime();
+            JSON.parse(res).forEach(function (element) {
+                if (element[2] != 0) {
+                    var time = d.setHours(element[6].slice(0, 2), element[6].slice(3, 5));
+                    var nextTime = d.setHours(element[4].slice(0, 2), element[4].slice(3, 5));
+
+                    if (time <= now && now <= nextTime) {
+                        ok = false;
+                        console.log(element);
+                        document.getElementById("card_full2").style.display = "block";
+                        document.getElementById("card_empty2").style.display = "none";
+                        document.getElementById("card_time2").innerHTML = element[2];
+                        document.getElementById("card_info2").innerHTML = element[0] + " - " + element[1];
+                        document.getElementById("card_duree2").innerHTML = element[3] + " minutes";
+                        document.getElementById("card_open2").innerHTML = element[6].slice(0, 5);
+                        document.getElementById("card_end2").innerHTML = element[4].slice(0, 5);
+                    }
+                }
+            });
+            count++;
+        }
+    }, 6000 * 1000);
+
+</script>
+<script>
+    function myFonct() {
+        $('#exampleModal').modal('hide');
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader2").style.display = "block";
+        document.getElementById("cat_live").style.display = "none";
+    }
+
+    function valid() {
+        document.getElementById("question").style.display = "none";
+        document.getElementById("validated").style.display = "block";
+        $.ajax(
+            {
+                type: "GET",
+                url: "/result_live",
+                data: {
+                    exclus: document.getElementById("card_id").innerHTML
+                },
+                success: function (data) {
+
+                }
+            })
+    }
+
+
+</script>
+</body>
+</html>

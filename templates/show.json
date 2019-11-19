@@ -1,0 +1,290 @@
+[
+  {
+    "id": "1",
+    "name": "Le Signe du Triomphe",
+    "duree": "42",
+    "prog": [
+      {
+        "hor": "14:00"
+      },
+      {
+        "hor": "17:00"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Les Vikings",
+    "duree": "26",
+    "prog": [
+      {
+        "hor": "11:30"
+      },
+      {
+        "hor": "13:00"
+      },
+      {
+        "hor": "16:00"
+      },
+      {
+        "hor": "18:30"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Le Bal des Oiseaux Fantomes",
+    "duree": "33",
+    "prog": [
+      {
+        "hor": "10:30"
+      },
+      {
+        "hor": "12:15"
+      },
+      {
+        "hor": "14:15"
+      },
+      {
+        "hor": "17:00"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Le Secret de la Lance",
+    "duree": "29",
+    "prog": [
+      {
+        "hor": "10:45"
+      },
+      {
+        "hor": "12:15"
+      },
+      {
+        "hor": "15:15"
+      },
+      {
+        "hor": "16:45"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Mousquetaire de Richelieu",
+    "duree": "32",
+    "prog": [
+      {
+        "hor": "11:15"
+      },
+      {
+        "hor": "12:30"
+      },
+      {
+        "hor": "15:30"
+      },
+      {
+        "hor": "18:15"
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Le Dernier Panache",
+    "duree": "34",
+    "prog": [
+      {
+        "hor": "10:30"
+      },
+      {
+        "hor": "11:45"
+      },
+      {
+        "hor": "13:15"
+      },
+      {
+        "hor": "15:30"
+      },
+      {
+        "hor": "16:45"
+      },
+      {
+        "hor": "19:15"
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "name": "La Renaissance du Chateau",
+    "duree": "30",
+    "prog": [
+      {
+        "hor": "10:00"
+      },
+      {
+        "hor": "13:00"
+      },
+      {
+        "hor": "15:00"
+      },
+      {
+        "hor": "19:30"
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "name": "Les Chevaliers de la Table Ronde",
+    "duree": "17",
+    "prog": [
+      {
+        "hor": "11:30"
+      },
+      {
+        "hor": "13:15"
+      },
+      {
+        "hor": "15:15"
+      },
+      {
+        "hor": "16:15"
+      },
+      {
+        "hor": "18:00"
+      },
+      {
+        "hor": "19:00"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "name": "Le Premier Royaume",
+    "duree": "18",
+    "prog": [
+      {
+        "hor": "10:00"
+      },
+      {
+        "hor": "20:00"
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "name": "Les Automates Musiciens",
+    "duree": "7",
+    "prog": [
+      {
+        "hor": "09:45"
+      },
+      {
+        "hor": "10:15"
+      },
+      {
+        "hor": "11:45"
+      },
+      {
+        "hor": "15:00"
+      },
+      {
+        "hor": "17:45"
+      },
+      {
+        "hor": "18:30"
+      },
+      {
+        "hor": "19:15"
+      },
+      {
+        "hor": "20:00"
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "name": "Le Grand Carillon",
+    "duree": "10",
+    "prog": [
+      {
+        "hor": "10:30"
+      },
+      {
+        "hor": "12:15"
+      },
+      {
+        "hor": "14:00"
+      },
+      {
+        "hor": "15:00"
+      },
+      {
+        "hor": "17:00"
+      },
+      {
+        "hor": "17:45"
+      },
+      {
+        "hor": "20:00"
+      }
+    ]
+  },
+  {
+    "id": "13",
+    "name": "Les Grandes Eaux",
+    "duree": "8",
+    "prog": [
+      {
+        "hor": "13:00"
+      },
+      {
+        "hor": "15:00"
+      },
+      {
+        "hor": "16:15"
+      },
+      {
+        "hor": "18:00"
+      }
+    ]
+  },
+  {
+    "id": "14",
+    "name": "Le Bal des Sapeurs",
+    "duree": "9",
+    "prog": [
+      {
+        "hor": "16:15"
+      },
+      {
+        "hor": "16:45"
+      }
+    ]
+  },
+  {
+    "id": "18",
+    "name": "Le Mystere de la Perouse",
+    "duree": "20",
+    "prog": [
+      {
+        "hor": "10:00"
+      },
+      {
+        "hor": "19:00"
+      }
+    ]
+  },
+  {
+    "id": "19",
+    "name": "Les Amoureux de Verdun",
+    "duree": "15",
+    "prog": [
+      {
+        "hor": "10:45"
+      },
+      {
+        "hor": "18:15"
+      }
+    ]
+  }
+]

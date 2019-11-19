@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+
+<html lang="fr">
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    {% progressive_web_app_meta %}
+    <title>Puy d'Info</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Puy d'Info est un site fan non officiel, d'aide à l'organisation d'une journée au Puy du Fou. Vous y retrouverais des informations pratiques sur les spectacles, restaurants ou hôtels.">
+    <meta name="keywords" content="puy du fou, puy d'info, info, aide, spectacles">
+    <meta name="author" content="Alusio">
+
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+{% include 'legales_js.html' %}
+<body class="homepage is-preload">
+
+<div id="page-wrapper">
+
+    <br>
+    <br>
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 text-center">
+                    <h1 class="text-uppercase">Bienvenue sur </h1>
+                    <div id="logo" style="text-align: center">
+                        <img src={% static 'logo_puydinfo.png' %} alt="">
+
+
+                    </div>
+                    <br>
+                    <hr>
+                    <p class="lead">
+
+                        Site non officiel, indépendant<br> et non reconnu par le Puy du Fou.
+                    </p>
+
+                    <br>
+                    <p><a href="/index" class="btn btn-red-new" style="font-size: 30px">Entrer</a></p>
+                    <br>
+                    <p class="lead">En utilisant ce site, je reconnais que cet outil est non officiel.</p>
+                    <p class="lead">Le Puy du Fou ne saurait être tenu
+                        responsable de l'usage qui est fait de cet outil.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro -->
+
+
+</div>
+
+<!-- Scripts -->
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+
+</body>
+</html>

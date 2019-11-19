@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load staticfiles %}
+
+<html lang="fr">
+<link rel="stylesheet" href="{% static '/theme/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/style.css' %}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                {% block content %}
+                    {{ form.media }}
+                    <form method="post" class="log">
+                        {% csrf_token %}
+                        <label for="id_username">Pseudo:</label>
+                        <br>
+                        {{ form.username }}
+                        <br>
+                        <br>
+                        <label for="id_password">Mot de passe:</label>
+                        <br>
+                        {{ form.password }}
+                        <br>
+                        <br>
+                        <button class="btn btn-red-new btn-lg" type="submit">Se connecter</button>
+                    </form>
+                    <hr>
+
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-black-new" role="button">
+                        Se connecter avec Google</a>
+                    <br>
+                    <br>
+                    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary-new" role="button">
+                        Se connecter avec Facebook</a>
+                    <br>
+                    <hr>
+                {% endblock %}
+                <h3>Pas de compte ? <a href="{% url 'signup' %}" style="color: #ac2925"><span
+                        class="fas fa-user"></span>
+                    Créer un compte !</a></h3>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+
+</body>
+</html>
+

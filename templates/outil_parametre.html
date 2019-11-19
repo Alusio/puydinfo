@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+
+<html lang="fr">
+<link rel="stylesheet" href="{% static '/theme/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/style.css' %}">
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/theme/css/parameter.css' %}">
+<head>
+    <title>Outil de planification</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Site permettant de préparer votre voyage au du Puy du Fou"/>
+    <meta name="keywords" content="sites, puy du fou, préparer, programmer, parc, cinéscénie"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+<br>
+<div class="section">
+    <div class="container container2">
+        <div id="hot-post" class="row hot-post">
+            <div class="col-md-12">
+                <div class="post">
+                    <div id="content">
+                        <header class="style1">
+                            <h1>Vous comptez visiter le parc le {{ temps|date }} ?</h1>
+                            <hr>
+                            <br>
+                        </header>
+                        <div class="loader" id="loader"
+                             style="display: none; margin-left: auto; margin-right: auto;">
+                            <div class="sk-folding-cube">
+                                <div class="sk-cube1 sk-cube"></div>
+                                <div class="sk-cube2 sk-cube"></div>
+                                <div class="sk-cube4 sk-cube"></div>
+                                <div class="sk-cube3 sk-cube"></div>
+                            </div>
+                        </div>
+                        <div class="loader" id="loader"
+                             style="display: block; margin-left: auto; margin-right: auto;"></div>
+                        {% include 'message.html' %}
+
+                        <div class="form-group">
+                            <form action="" method="POST" class="sombre" id="regForm">
+                                {% csrf_token %}
+                                <div class="tab">
+                                    {% if sejour %}
+                                        {% if not sejour_ok %}
+                                            <h2><span class="far fa-exclamation-triangle"></span> Attention, votre
+                                                séjour
+                                                est prévu pour le <b>{{ sejour.date }}</b>.</h2>
+                                            <h3>Notre assistant de planification va créer un programme pour
+                                                le {{ temps|date }}.</h3>
+                                            <br>
+                                            <h3>Nous pouvons créer un programme seulement la veille ou le jour même de
+                                                votre
+                                                visite.</h3>
+                                            <h3>Cependant, il est possible de faire une simulation de votre futur
+                                                programme.</h3>
+                                            <br>
+                                            <p>Pour commencer la simulation, cliquez sur le bouton "Suivant".</p>
+
+                                        {% else %}
+                                            <h2>Nous allons organiser ensemble votre journée sur le parc.<br>
+                                                Pour cela, nous devons paramétrer notre assitant.</h2>
+                                            <br>
+                                            <h3><span class="far fa-exclamation-triangle"></span> Pour le moment, nous
+                                                pouvons générer un programme que pour une seule journée.</h3>
+                                            <br>
+                                            <p>Pour commencer, cliquez sur le bouton "Suivant".</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <h2>Nous allons organiser ensemble votre journée sur le parc.<br>
+                                            Pour cela, nous devons paramétrer notre assistant.</h2>
+                                        <br>
+                                        <h3><span class="far fa-exclamation-triangle"></span> Nous pouvons créer un
+                                            programme seulement la veille ou le jour même de
+                                            votre
+                                            visite.</h3>
+                                        <br>
+                                        <p>Pour commencer, cliquez sur le bouton "Suivant".</p>
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="tab">
+                                    <h2 style="color: #AA3939;">Avez-vous déjà visité le parc ?</h2>
+                                    <br>
+                                    <label class="container container2 labelForm">Oui
+                                        <span class="tooltiptext"></span>
+                                        <input name="visited" type="radio" value="1" id="visited_oui">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                    <label class="container container2 labelForm">Non
+                                        <span class="tooltiptext"></span>
+                                        <input name="visited" type="radio" value="2" id="visited_non">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                </div>
+                                <div class="tab">
+                                    <h2 style="color: #AA3939;">Êtes-vous actuellement présent dans le parc ?</h2>
+                                    <br>
+                                    <label class="container container2 labelForm">Oui
+                                        <input name="choix3" type="radio" value="1" id="oui">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Non
+                                        <input name="choix3" type="radio" value="2" id="non">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                </div>
+                                <div class="tab">
+                                    <h2 style="color: #AA3939;">Quels spectacles souhaitez-vous voir ?</h2>
+                                    <p>Si vous ne savez pas quoi choisir ou visitez le parc pour la première fois,
+                                        cochez "Tout séléctionner". </p>
+                                    <br>
+
+                                    <br>
+                                    <label class="container container2 labelForm">
+                                        <input name="select-all" type="checkbox" id="select-all">
+                                        <span class="checkmark" style="left: -3px;"></span>
+                                        Tout séléctionner
+                                    </label>
+                                    <br>
+                                    <div class="row">
+                                        {% for show in spectacle %}
+                                            <div class="col-md-6">
+                                                <label class="container container2">
+                                                    <div class="post post-thumb">
+                                                        <a class="post-img"><img
+                                                                src="/media/{{ show.photo_home }}"
+                                                                alt="Phtoto {{ show.slug }}" style=""></a>
+                                                        <div class="post-body">
+                                                            <div class="post-category">
+                                                                <p class="lead"
+                                                                   style="color: {{ show.color_title }}; font-size: 0.9em">
+                                                                    {% for t in type %}{{ t }}{% if not forloop.last %}
+                                                                        -
+                                                                    {% endif %}{% endfor %}</p>
+                                                            </div>
+                                                            <h3 class="post-title title-lg"
+                                                                style="color:white;">{{ show.name }}
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="show" type="checkbox" value="{{ show.number }}">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab">
+                                    <h2 style="color: #AA3939;">Quel type de journée souhaitez-vous adopter ?</h2>
+
+                                    <p><b>Express :</b></p>
+                                    <p style="font-size: 0.8em;">Le temps de pause entre chaque spectacle et pour le
+                                        midi est réduit. Rythme important.</p>
+                                    <p><b>Défaut : </b></p>
+                                    <p style="font-size: 0.8em;">Configuration adaptée pour une visite normale.</p>
+                                    <p><b>Confort : </b></p>
+                                    <p style="font-size: 0.8em;">Journée tranquille avec du temps supplémentaire entre
+                                        chaque spectacle.
+                                        Le nombre de spectacle dans la journée est réduit.</p>
+                                    <br>
+                                    <label class="container container2 labelForm">Express
+                                        <input name="choix" type="radio" value="1" id="express">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Défaut
+                                        <input name="choix" type="radio" value="2" id="default">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Confort
+                                        <input name="choix" type="radio" value="3" id="confort">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                </div>
+
+                                <div class="tab">
+                                    <h2>D'après votre type de journée, nous avons pré-rempli certains paramètres.</h2>
+                                    <h2>Dans un premier temps, nous avons défini votre type de parcours.</h2>
+                                    <br>
+                                    <h2 style="color: #AA3939;">Vous pouvez le modifier pour affiner votre
+                                        programme.</h2>
+                                    <p><b>Intensif : </b></p>
+                                    <p style="font-size: 0.8em;">Le temps entre chaque spectacle est réduit.</p>
+                                    <p><b>Normal : </b></p>
+                                    <p style="font-size: 0.8em;">Le temps entre chaque spectacle est normal.</p>
+                                    <p><b>Tranquille : </b></p>
+                                    <p style="font-size: 0.8em;">Le temps entre chaque spectacle est rallongé.</p>
+                                    <br>
+                                    <label class="container container2 labelForm">Intensif
+                                        <input name="choix1" type="radio" value="1" id="intensif">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Normal
+                                        <input name="choix1" type="radio" value="2" id="normal">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Tranquille
+                                        <input name="choix1" type="radio" value="3" id="tranquille">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                </div>
+                                <!--  ### REPAS MIDI ### -->
+                                <div class="tab">
+                                    <h2><span class="far fa-utensils"></span> Pour le <b style="color: #ac2925">midi</b>.
+                                    </h2>
+                                    <p><b>J'apporte mon repas : </b></p>
+                                    <p style="font-size: 0.8em;">Vous apportez votre propre repas pour le midi. Le
+                                        temps pour ce dernier est donc réduit.</p>
+                                    <p><b>Restauration rapide : </b></p>
+                                    <p style="font-size: 0.8em;">La restauration rapide permet de manger rapidement
+                                        dans les restaurants du parc. Il peut cependant y avoir du monde et de
+                                        l'attente.</p>
+                                    <p><b>Restaurant : </b></p>
+                                    <p style="font-size: 0.8em;">Le temps de repas est allongé pour permettre de faire
+                                        un
+                                        restaurant servi à table.</p>
+                                    <br>
+                                    <label class="container container2 labelForm">J'amène mon repas
+                                        <input name="choix2" type="radio" value="1" id="rapide">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Restauration rapide
+                                        <input name="choix2" type="radio" value="2" id="rapide2">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Restaurant
+                                        <input name="choix2" type="radio" value="3" id="restaurant">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                    <label class="container container2 labelForm">J'aimerais une suggestion pour tous
+                                        les restaurants
+                                        <input name="choix2" type="radio" value="4" id="resto_suggest">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                    <br>
+                                    <div id="price" style="display: none">
+                                        <p>Votre budget :</p>
+                                        <br>
+                                        <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price" type="radio" id="price_1" value="1">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price" type="radio" id="price_2" value="2">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price" type="radio" id="price_3" value="3">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price" type="radio" id="price_3" value="4">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="tab">
+
+                                    <div id="resto_1_2" style="display: none">
+                                        <label class="container container2 labelForm">Restaurant classique</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_kind" type="radio" id="resto_1_2_classique">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">Restaurant animé</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_kind" type="radio" id="resto_1_2_anime">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                    </div>
+                                    <br>
+                                    <div id="resto_repas_home" style="display: none">
+                                        <p>Vous aurez toujours la possibilité de découvrir les options de nourriture sur
+                                            le parc.</p>
+                                    </div>
+                                    <br>
+                                    <div id="resto_0" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant animé
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant" type="radio" value="none_anime"
+                                                   id="resto_anime_none">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+                                            {% if resto.prog|length != 0  and resto.category == 0 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 0 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if prog.hor <= '15:00' %}
+                                                                {{ prog.hor }} {% if forloop.counter|divisibleby:2 %}/
+                                                            {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.first %}
+                                                                    Non disponible
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant" type="radio" value="{{ resto.id }}"
+                                                           id="resto_anime_choice_midi_{{ resto.id }}">
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div id="price_anime" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_1" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_2" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% for resto in liste_resto %}
+                                        {% if resto.prog|length != 0  and resto.category == 0 %}
+                                            <div id="resto_0_midi_{{ resto.id }}" style="display: none;">
+                                                <div class="col-md-3">
+                                                    <br>
+                                                    <label for="monselect">Heure : </label>
+                                                    <select class="form-control" id="select_resto_anime"
+                                                            name="select_resto_anime_{{ resto.id }}">
+                                                        {% for prog in resto.prog %}
+                                                            {% if prog.hor <= '15:00' %}
+                                                                <option value="{{ prog.hor }}">{{ prog.hor }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                    <div id="resto_1" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant classique
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant" type="radio" value="none_classique"
+                                                   id="resto_classique_none">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+
+                                            {% if resto.prog|length != 0  and resto.category == 1 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 1 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if resto.prog|length == 3 or resto.prog|length == 5 %}
+                                                                {% if forloop.counter|divisibleby:2 and forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    à {{ prog.hor }}
+                                                                {% elif forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    {{ prog.hor }}
+                                                                {% else %}
+                                                                    (plats chauds à partir de {{ prog.hor }})
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.counter|divisibleby:2 %}
+                                                                    à {{ prog.hor }}
+                                                                {% else %}
+                                                                    {% if forloop.counter == 3 %}
+                                                                        et de
+                                                                    {% endif %}
+                                                                    {{ prog.hor }}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant" type="radio" value={{ resto.id }}>
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        <div id="price_classique" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_1" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_2" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="resto_2" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant rapide
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant" type="radio" value="none_rapide"
+                                                   id="resto_rapide_none">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+
+                                            {% if resto.prog|length != 0  and resto.category == 2 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 2 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if resto.prog|length == 3 or resto.prog|length == 5 %}
+
+                                                                {% if forloop.counter|divisibleby:2 and forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    à {{ prog.hor }}
+                                                                {% elif forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    {{ prog.hor }}
+                                                                {% else %}
+                                                                    (plats chauds à partir de {{ prog.hor }})
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.counter|divisibleby:2 %}
+                                                                    à {{ prog.hor }}
+                                                                {% else %}
+                                                                    {{ prog.hor }}
+                                                                {% endif %}
+                                                            {% endif %}
+
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant" type="radio" value={{ resto.id }}>
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        <div id="price_rapide" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_1" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_2" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price" type="radio" id="price_3" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ### REPAS SOIR ### -->
+                                <div class="tab">
+                                    <h2><span class="far fa-utensils"></span> Pour le <b style="color: #ac2925">soir</b>.
+                                    </h2>
+                                    <p><b>J'apporte mon repas : </b></p>
+                                    <p style="font-size: 0.8em;">Vous apportez votre propre repas pour le soir. Le
+                                        temps pour ce dernier est donc réduit.</p>
+                                    <p><b>Restauration rapide : </b></p>
+                                    <p style="font-size: 0.8em;">La restauration rapide permet de manger rapidement
+                                        dans les restaurants du parc. Il peut cependant y avoir du monde et de
+                                        l'attente.</p>
+                                    <p><b>Restaurant : </b></p>
+                                    <p style="font-size: 0.8em;">Le temps de repas est allongé pour permettre de faire
+                                        un
+                                        restaurant servi à table.</p>
+                                    <br>
+                                    <label class="container container2 labelForm">J'amène mon repas
+                                        <input name="choix2_soir" type="radio" value="1" id="rapide_soir">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Restauration rapide
+                                        <input name="choix2_soir" type="radio" value="2" id="rapide2_soir">
+                                        <span class="checkmark1"></span>
+                                    </label>
+
+                                    <label class="container container2 labelForm">Restaurant
+                                        <input name="choix2_soir" type="radio" value="3" id="restaurant_soir">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                    <label class="container container2 labelForm">J'aimerais une suggestion pour tous
+                                        les restaurants
+                                        <input name="choix2_soir" type="radio" value="4" id="resto_suggest_soir">
+                                        <span class="checkmark1"></span>
+                                    </label>
+                                    <br>
+                                    <div id="price_soir" style="display: none">
+                                        <p>Votre budget :</p>
+                                        <br>
+                                        <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price_soir" type="radio" id="price_1_soir" value="1">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price_soir" type="radio" id="price_2_soir" value="2">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price_soir" type="radio" id="price_3_soir" value="3">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="price_soir" type="radio" id="price_3_soir" value="4">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="tab">
+
+                                    <div id="resto_1_2_soir" style="display: none">
+                                        <label class="container container2 labelForm">Restaurant classique</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_kind_soir" type="radio"
+                                                   id="resto_1_2_classique_soir">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        <label class="container container2 labelForm">Restaurant animé</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_kind_soir" type="radio" id="resto_1_2_anime_soir">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                    </div>
+                                    <br>
+                                    <div id="resto_repas_home_soir" style="display: none">
+                                        <p>Vous aurez toujours la possibilité de découvrir les options de nourriture sur
+                                            le parc.</p>
+                                    </div>
+                                    <br>
+                                    <div id="resto_0_soir" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant animé</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_soir" type="radio" value="none_anime"
+                                                   id="resto_anime_none_soir">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+                                            {% if resto.prog|length != 0  and resto.category == 0 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 0 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if prog.hor >= '16:00' %}
+                                                                {{ prog.hor }} {% if forloop.counter|divisibleby:2 %}/
+                                                            {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.first %}
+                                                                    Non disponible
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant_soir" type="radio" value="{{ resto.id }}"
+                                                           id="resto_anime_choice_soir_{{ resto.id }}">
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div id="price_anime_soir" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_1_soir" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_2_soir" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% for resto in liste_resto %}
+                                        {% if resto.prog|length != 0  and resto.category == 0 %}
+                                            <div id="resto_0_soir_{{ resto.id }}" style="display: none;">
+                                                <div class="col-md-3">
+                                                    <br>
+                                                    <label for="monselect">Heure : </label>
+                                                    <select class="form-control" id="select_resto_anime_soir"
+                                                            name="select_resto_anime_soir_{{ resto.id }}">
+                                                        {% for prog in resto.prog %}
+                                                            {% if prog.hor >= '16:00' %}
+                                                                <option value="{{ prog.hor }}">{{ prog.hor }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                    <div id="resto_1_soir" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant classique</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_soir" type="radio" value="none_classique"
+                                                   id="resto_classique_none_soir">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+
+                                            {% if resto.prog|length != 0  and resto.category == 1 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 1 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if resto.prog|length == 3 or resto.prog|length == 5 %}
+                                                                {% if forloop.counter|divisibleby:2 and forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    à {{ prog.hor }}
+                                                                {% elif forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    {{ prog.hor }}
+                                                                {% else %}
+                                                                    (plats chauds à partir de {{ prog.hor }})
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.counter|divisibleby:2 %}
+                                                                    à {{ prog.hor }}
+                                                                {% else %}
+                                                                    {% if forloop.counter == 3 %}
+                                                                        et de
+                                                                    {% endif %}
+                                                                    {{ prog.hor }}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant_soir" type="radio" value={{ resto.id }}>
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        <div id="price_classique_soir" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_1_soir" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_2_soir" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="resto_2_soir" style="display: none">
+                                        <label class="container container2 labelForm">J'aimerais une suggestion pour un
+                                            restaurant rapide</a>
+                                            <span class="tooltiptext"></span>
+                                            <input name="restaurant_soir" type="radio" value="none_rapide"
+                                                   id="resto_rapide_none_soir">
+                                            <span class="checkmark1"></span>
+                                        </label>
+                                        {% for resto in liste_resto %}
+
+                                            {% if resto.prog|length != 0  and resto.category == 2 %}
+                                                <label class="container container2 labelForm">{{ resto.name }}
+                                                    <span class="far fa-clock"></span>
+                                                    {% if resto.category == 2 %}
+                                                        {% for prog in resto.prog %}
+                                                            {% if resto.prog|length == 3 or resto.prog|length == 5 %}
+
+                                                                {% if forloop.counter|divisibleby:2 and forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    à {{ prog.hor }}
+                                                                {% elif forloop.counter != 3 and forloop.counter != 5 %}
+                                                                    {{ prog.hor }}
+                                                                {% else %}
+                                                                    (plats chauds à partir de {{ prog.hor }})
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if forloop.counter|divisibleby:2 %}
+                                                                    à {{ prog.hor }}
+                                                                {% else %}
+                                                                    {{ prog.hor }}
+                                                                {% endif %}
+                                                            {% endif %}
+
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="tooltiptext"></span>
+                                                    <input name="restaurant_soir" type="radio" value={{ resto.id }}>
+                                                    <span class="checkmark1"></span>
+                                                </label>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        <div id="price_rapide_soir" style="display: none">
+                                            <p>Votre budget :</p>
+                                            <br>
+                                            <label class="container container2 labelForm">0€ à 10€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_1_soir" value="1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">10€ à 20€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_2_soir" value="2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">20€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="3">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">0€ à 50€ /pers.</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="price_soir" type="radio" id="price_3_soir" value="4">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ### RECAPITULATIF ### -->
+
+                                <div class="tab">
+                                    <h2>Récapitulatif :</h2>
+                                    <h2>D'après vox choix, nous avons finalement les paramètres suivants.</h2>
+                                    <br>
+                                    <h3 style="color: #AA3939;">Vous pouvez le modifier pour affiner votre
+                                        programme.</h3>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <br>
+                                            <label for="monselect">Intervalle entre les spectacles : </label>
+                                            <select class="form-control" id="monselect" name="temps">
+                                                <option value="5">5 min</option>
+                                                <option value="10">10 min</option>
+                                                <option value="15">15 min</option>
+                                                <option value="20">20 min</option>
+                                                <option value="25">25 min</option>
+                                                <option value="30" selected>30 min</option>
+                                                <option value="40">40 min</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <br>
+                                            <label for="monselect">Temps de pause pour le midi :</label>
+                                            <select class="form-control" id="monselect1" name="temps_midi">
+                                                <option value="0">Aucun</option>
+                                                <option value="15">15 min</option>
+                                                <option value="20">20 min</option>
+                                                <option value="25">25 min</option>
+                                                <option value="30" selected>30 min</option>
+                                                <option value="35">35 min</option>
+                                                <option value="40">40 min</option>
+                                                <option value="45">45 min</option>
+                                                <option value="50">50 min</option>
+                                                <option value="60">1 h</option>
+                                                <option value="90">1 h 30</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <br>
+                                            <label for="monselect">Heure de début de la journée : </label>
+                                            <br>
+                                            <select class="form-control" id="monselect2" name="temps_debut">
+                                                <option value="23:23">Maintenant</option>
+                                                <option value="10:00" selected>10 h 00</option>
+                                                <option value="10:30">10 h 30</option>
+                                                <option value="11:00">11 h 00</option>
+                                                <option value="11:30">11 h 30</option>
+                                                <option value="12:00">12 h 00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="monselect">Type d'organisation: </label>
+                                            <br>
+                                            <br>
+                                            <label class="container container2 labelForm">Priorité aux
+                                                incontournables</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="calculator" type="radio" value="1" id="calculator_1">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                            <label class="container container2 labelForm">Plus de spectacles
+                                                possible</a>
+                                                <span class="tooltiptext"></span>
+                                                <input name="calculator" type="radio" value="2" id="calculator_2">
+                                                <span class="checkmark1"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div style="overflow:auto;">
+                                    <div style="float:right;" id="button">
+                                        <button type="button" id="prevBtn" onclick="nextPrev(-1)"
+                                                class="btn btn-red-new btn-lg">Précédent
+                                        </button>
+                                        <button type="button" id="nextBtn" onclick="nextPrev(1)"
+                                                class="btn btn-red-new btn-lg">Suivant
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Circles which indicates the steps of the form: -->
+                                <div style="text-align:center;margin-top:40px;" id="step">
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                    <span class="step"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="section" style="height: 20%">
+</div>
+
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+
+
+<link rel="stylesheet" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+<script type="text/javascript">
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+</script>
+<script type="text/javascript">
+
+    $('#resto_suggest_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 1;
+        document.getElementById("resto_repas_home_soir").style.display = "block";
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "none";
+        document.getElementById("price_soir").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+
+    });
+
+    $('#rapide_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 1;
+        document.getElementById("resto_repas_home_soir").style.display = "block";
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "none";
+        document.getElementById("price_soir").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+
+    });
+    $('#rapide2_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "block";
+        document.getElementById("resto_1_2_soir").style.display = "none"
+        document.getElementById("price_soir").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+    });
+    $('#restaurant_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "block";
+        document.getElementById("price_soir").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+    });
+
+    $('#resto_1_2_classique_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "block";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+    });
+
+    $('#resto_1_2_anime_soir').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0_soir").style.display = "block";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+    });
+
+    $('*[id^="resto_anime_choice_soir_"]').click(function (event) {
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_0_soir_" + this.value).style.display = "block";
+    });
+
+    $('#resto_anime_none_soir').click(function (event) {
+        Array.from(document.querySelectorAll('*[id^="resto_0_soir_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("price_anime_soir").style.display = "block";
+        document.getElementById("price_classique_soir").style.display = "none";
+        document.getElementById("price_rapide_soir").style.display = "none";
+    });
+    $('#resto_classique_none_soir').click(function (event) {
+        document.getElementById("price_classique_soir").style.display = "block";
+        document.getElementById("price_rapide_soir").style.display = "none";
+        document.getElementById("price_anime_soir").style.display = "none";
+    });
+    $('#resto_rapide_none_soir').click(function (event) {
+        document.getElementById("price_rapide_soir").style.display = "block";
+        document.getElementById("price_anime_soir").style.display = "none";
+        document.getElementById("price_classique_soir").style.display = "none";
+    });
+
+</script>
+<script type="text/javascript">
+    $('#visited_oui').click(function (event) {
+        document.getElementById("calculator_2").checked = true;
+
+    });
+
+    $('#visited_non').click(function (event) {
+        document.getElementById("calculator_1").checked = true;
+
+    });
+
+
+    $('#tranquille').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 6;
+    });
+    $('#normal').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 5;
+    });
+    $('#intensif').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 3;
+    });
+
+    $('#resto_suggest').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 1;
+        document.getElementById("resto_repas_home").style.display = "block";
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "none";
+        document.getElementById("price").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+
+    });
+
+    $('#rapide').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 1;
+        document.getElementById("resto_repas_home").style.display = "block";
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "none";
+        document.getElementById("price").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+
+    });
+    $('#rapide2').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "block";
+        document.getElementById("resto_1_2").style.display = "none"
+        document.getElementById("price").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+    });
+    $('#restaurant').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "block";
+        document.getElementById("price").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+    });
+
+    $('#resto_1_2_classique').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "block";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+    });
+
+    $('#resto_1_2_anime').click(function (event) {
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("resto_0").style.display = "block";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+    });
+
+    $('#express').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 3;
+        document.getElementById("monselect1").selectedIndex = 1;
+        document.getElementById("intensif").checked = true;
+        document.getElementById("rapide").checked = true;
+        document.getElementById("rapide_soir").checked = true;
+    });
+    $('#default').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 5;
+        document.getElementById("monselect1").selectedIndex = 4;
+        document.getElementById("monselect2").selectedIndex = 1;
+        document.getElementById("normal").checked = true;
+        document.getElementById("rapide2").checked = true;
+        document.getElementById("rapide2_soir").checked = true;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "block";
+        document.getElementById("resto_1_2").style.display = "none";
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "block";
+        document.getElementById("resto_1_2_soir").style.display = "none";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+
+    });
+    $('#confort').click(function (event) {
+        document.getElementById("monselect").selectedIndex = 6;
+        document.getElementById("monselect1").selectedIndex = 9;
+        document.getElementById("tranquille").checked = true;
+        document.getElementById("restaurant").checked = true;
+        document.getElementById("restaurant_soir").checked = true;
+        document.getElementById("resto_0").style.display = "none";
+        document.getElementById("resto_1").style.display = "none";
+        document.getElementById("resto_2").style.display = "none";
+        document.getElementById("resto_1_2").style.display = "block";
+        document.getElementById("resto_0_soir").style.display = "none";
+        document.getElementById("resto_1_soir").style.display = "none";
+        document.getElementById("resto_2_soir").style.display = "none";
+        document.getElementById("resto_1_2_soir").style.display = "block";
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_repas_home").style.display = "none";
+        document.getElementById("resto_repas_home_soir").style.display = "none";
+
+    });
+    $('#oui').click(function (event) {
+        document.getElementById("monselect2").selectedIndex = 0;
+    });
+    $('#non').click(function (event) {
+        document.getElementById("monselect2").selectedIndex = 1;
+    });
+
+    $('*[id^="resto_anime_choice_midi_"]').click(function (event) {
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("resto_0_midi_" + this.value).style.display = "block";
+    });
+
+    $('#resto_anime_none').click(function (event) {
+        Array.from(document.querySelectorAll('*[id^="resto_0_"]'))
+            .forEach(function (val) {
+                val.style.display = 'none';
+            });
+        document.getElementById("price_anime").style.display = "block";
+        document.getElementById("price_classique").style.display = "none";
+        document.getElementById("price_rapide").style.display = "none";
+    });
+    $('#resto_classique_none').click(function (event) {
+        document.getElementById("price_classique").style.display = "block";
+        document.getElementById("price_rapide").style.display = "none";
+        document.getElementById("price_anime").style.display = "none";
+    });
+    $('#resto_rapide_none').click(function (event) {
+        document.getElementById("price_rapide").style.display = "block";
+        document.getElementById("price_anime").style.display = "none";
+        document.getElementById("price_classique").style.display = "none";
+    });
+
+
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+        // This function will display the specified tab of the form ...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        // ... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Valider";
+
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Suivant";
+        }
+        // ... and run a function that displays the correct step indicator:
+        fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // Exit the function if any field in the current tab is invalid:
+        if (n == 1 && !validateForm()) return false;
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form... :
+        if (currentTab >= x.length) {
+            //...the form gets submitted:
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("step").style.display = "none";
+            document.getElementById("button").style.display = "none";
+            document.getElementById("regForm").submit();
+            return false;
+
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+    }
+
+    function validateForm() {
+        // This function deals with validation of the form fields
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        y = x[currentTab].getElementsByTagName("input");
+        // A loop that checks every input field in the current tab:
+        for (i = 0; i < y.length; i++) {
+            // If a field is empty...
+            if (y[i].value == "") {
+                // add an "invalid" class to the field:
+                y[i].className += " invalid";
+                // and set the current valid status to false:
+                valid = false;
+            }
+        }
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid; // return the valid status
+    }
+
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class to the current step:
+        x[n].className += " active";
+    }
+
+    $(document).ready(function () {
+        var name = "";
+        event.preventDefault();
+        name = caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith("django-pwa-")))
+            );
+        });
+        name.then(function (result) {
+            caches.open(result)
+                .then(cache => {
+                    return cache.delete('/programme');
+                });
+        });
+
+
+    });
+</script>
+
+</body>
+</html>

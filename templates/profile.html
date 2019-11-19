@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+
+<html lang="fr">
+<link rel="stylesheet" href="{% static '/theme/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/style.css' %}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+{% for message in messages %}
+
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+
+    </div>
+{% endfor %}
+<div class="section">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-centered">
+                {% block content %}
+                    {{ user_form.media }}
+                    {{ profile_form.media }}
+                    <form method="post" class="log">
+                        {% csrf_token %}
+                        <h4>Utilisateur :</h4>
+                        {{ user_form.as_p }}
+
+                        {% for field in profile_form %}
+                            {% if field.html_name == 'show' %}
+                                <h4>{{ field.label }} :</h4>
+                                {{ field }}
+                                </select>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <br>
+                        <hr>
+                        <br>
+                        <button class="btn btn-red btn-lg" type="submit">Sauvegarder</button>
+
+                    </form>
+                {% endblock %}
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<link rel="stylesheet" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

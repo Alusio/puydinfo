@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h2 class="title">Erreur 404</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                        <div class="post">
+                            <div class="post-body">
+                                <header class="style1">
+                                    <h2>Oups !</h2>
+                                    <h7>
+                                        La page demandée est introuvable.<br>
+                                        Un romain l'a surement déplacé.
+                                    </h7>
+                                </header>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+
+
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2 class="title">Contactez-nous</h2>
+                    </div>
+                    <div class="newsletter-widget">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <br>
+                            <input type="submit" value="Envoyer" class="btn btn-default" style="font-size: 20px"/>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- /newsletter widget -->
+
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+
+</body>
+</html>

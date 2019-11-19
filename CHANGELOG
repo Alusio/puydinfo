@@ -1,0 +1,46 @@
+## [0.1.3]
+### Ajout
+* Génération d'un programme plus complet
+* Création d'une API plus complète
+* Mise à jour des fiches spectacles, restaurants et hôtels
+* Amélioration de la détection des horaires
+* Ajout scripts Google Analytics
+
+
+----------------------------------
+
+## [0.1.2]
+### Ajout
+* Génération d'un programme basique (BETA)
+* Création d'une API basique (un seul jour)
+* Utilisation des cookies
+* Correction du logo
+* Ajout d'un loader
+* Mise à jour des mentions légales
+
+
+----------------------------------
+
+## [0.1.1]
+### Ajout
+* Ajout d'une page pour le changelog
+* Refonte du menu
+* Amélioration visibilité issues
+* Correction de divers bugs
+* Mise à jour de la page News
+* Amélioration du CSS pour mobile
+* Refonte fiche spectacle
+* Refonte comparateur spectacle
+* Refonte du design
+
+
+----------------------------------
+
+## [0.1.0]
+### Ajout
+* Nouveau Design
+
+
+### Modifié
+* Fonctionnement de la page des News
+

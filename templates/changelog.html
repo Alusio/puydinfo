@@ -1,0 +1,77 @@
+{% load static %}
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CMuli:400,700" rel="stylesheet">
+<link rel="stylesheet" href="{% static '/theme/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{% static '/theme/css/style.css' %}">
+
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+<br>
+<div class="section">
+    <div class="container">
+        <div id="hot-post" class="row hot-post">
+            <div class="col-md-12">
+                <div class="post">
+                    <div id="content">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Changement de la dernière mise à jour</div>
+                            <div class="panel-body">{{ file|markdown|safe }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="section">
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts -->
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+</script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load pwa %}
+{% load static %}
+{% load staticfiles %}
+<html lang="fr">
+
+
+<script src="{% static 'js/loader/jquery.min.js' %}"></script>
+<script src="{% static 'js/loader/pace.js' %}"></script>
+
+{% include "import.html" %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puy d'Info</title>
+    <link rel="shortcut icon" href="{% static '/favicon/favicon-2.ico' %}">
+    {% include "google_analytics.html" %}
+</head>
+
+<body>
+<header id="header">
+
+    {% include "nav.html" %}
+</header>
+{% include 'legales_js.html' %}
+
+<br>
+{% for message in messages %}
+
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+
+    </div>
+{% endfor %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-centered">
+                {% if sejours == "none" %}
+                    <a href="/sejour/add" class="btn btn-red-new" style="font-size: 30px">Créer un séjour</a>
+                {% else %}
+                    <h2>Liste de mes séjours :</h2>
+                    <br>
+                    {% for sejour in sejours %}
+                        <h3><span class="fas fa-chevron-right"></span> {{ sejour.name }}
+                            du {{ sejour.date|date:"d/m/y" }} pour {{ sejour.duration }}
+                            {% if sejour.duration == 1 %}jour{% else %} jours{% endif %} <a
+                                    href="/sejour/edit/{{ sejour.id }}"><span class="far fa-edit"></span></a></h3>
+
+                    {% endfor %}
+                    <hr>
+                    <a href="/sejour/add" class="btn btn-red-new btn-lg">Créer un nouveau séjour</a>
+                {% endif %}
+                <br>
+                <br>
+            </div>
+            <br>
+            <div class="col-md-6 col-centered">
+                <div class="section-title">
+                    <h2 class="title"><span class="fas fa-info"></span> Informations</h2>
+                </div>
+                <div class="post post-widget">
+                    <div class="post-body">
+                        <p>Pour modifier un séjour, cliquez sur <span class="far fa-edit"></span>.</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- FOOTER -->
+<footer id="footer">
+    <div class="container">
+        {% include 'copyright.html' %}
+    </div>
+</footer>
+<!-- /FOOTER -->
+
+<!-- Scripts
+-->
+<link rel="stylesheet" type="text/css" href="{% static '/cookie/cookiealert.css' %}">
+<script src="{% static '/cookie/cookiealert.js' %}"></script>
+<script src="{% static '/theme/js/jquery.min.js' %}"></script>
+<script src="{% static '/theme/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/theme/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static '/theme/js/main.js' %}"></script>
+<script src="{% static '/js/idb.js' %}"></script>
+<script src="{% static '/js/idbop.js' %}"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
