@@ -13,17 +13,13 @@ services:
       - 8000
     env_file: var.env
     depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: "exit 0"
+      - db
+
   db:
     image: postgres:11.5-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file: var.env.db
-    healthcheck:
-      test: "exit 0"
 
   nginx:
     image: nginx:1.15-alpine
@@ -35,8 +31,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     depends_on:
-      web:
-        condition: service_healthy
+      - web
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
