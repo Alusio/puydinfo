@@ -1,4 +1,5 @@
 import tempfile
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -9,10 +10,10 @@ from blog.models import Spectacle, Quote, Image_Show, Restaurant, Image_Restaura
 
 tmp = tempfile.NamedTemporaryFile()
 
-def handler404(request):
+def handler404(request, exception):
     return render(request, '404.html', status=404)
 
-def handler500(request):
+def handler500(request, exception):
     return render(request, '500.html', status=500)
 
 def index_off(request):
