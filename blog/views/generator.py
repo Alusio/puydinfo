@@ -2,12 +2,13 @@ import datetime
 import json
 import tempfile
 from datetime import timedelta
+from operator import itemgetter
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites import requests
 from django.db import transaction
 from django.shortcuts import render, redirect
-from operator import itemgetter
 
 from blog.models import Programme, Sejour, Spectacle, Animation
 
@@ -102,15 +103,16 @@ def parametres(request):
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
 
-    response_list_freq = requests.get(list_freq)
-    freq_time = response_list_freq.json()[0]["time"][0][:-9]
-    prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
-    response_list_resto = requests.get(list_resto)
-    liste_resto = response_list_resto.json()
-    sejour_ok = False
-    spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
+    if debug_mode:
+        response_list_freq = requests.get(list_freq)
+        freq_time = response_list_freq.json()[0]["time"][0][:-9]
+        prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
+        response_list_resto = requests.get(list_resto)
+        liste_resto = response_list_resto.json()
+        sejour_ok = False
+        spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and debug_mode:
         try:
             sejour = Sejour.objects.order_by('-date').filter(user=request.user).first()
         except Sejour.DoesNotExist:
@@ -282,9 +284,11 @@ def parametres(request):
 
         programme.save()
         return redirect('/programme')
-    return render(request, 'outil_parametre.html',
+
+    return render(request, 'outil_parametre.html')
+    """return render(request, 'outil_parametre.html',
                   {'temps': prev_time, 'liste_resto': liste_resto, 'sejour': sejour, 'sejour_ok': sejour_ok,
-                   'spectacle': spectacle})
+                   'spectacle': spectacle})"""
 
 
 @login_required
