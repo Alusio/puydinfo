@@ -16,6 +16,8 @@ services:
       - db
     environment:
       - VIRTUAL_HOST=puydinfo.fr
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=puydinfo.fr
 
   db:
     image: postgres:11.5-alpine
