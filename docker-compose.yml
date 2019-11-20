@@ -6,7 +6,7 @@ services:
       context: ./
     links:
       - db:db
-    command: gunicorn mon_site.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:8000
     volumes:
       - static_volume_pdf:/code/blog/static
     expose:
