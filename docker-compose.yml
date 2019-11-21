@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  web_pdf:
+  web2:
     build:
       context: ./
     links:
@@ -35,12 +35,12 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     depends_on:
-      - web_pdf
+      - web2
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     networks:
       - site2_default
     links:
-      - web_pdf
+      - web2
 
   certbot:
     image: certbot/certbot
