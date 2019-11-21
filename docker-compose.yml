@@ -36,8 +36,10 @@ services:
       - ./data/certbot/www:/var/www/certbot
     depends_on:
       - web_pdf
-      - web
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - net
+
   certbot:
     image: certbot/certbot
     volumes:
@@ -49,3 +51,7 @@ services:
 volumes:
   postgres_data_pdf:
   static_volume_pdf:
+
+networks:
+  net:
+    driver: bridge
