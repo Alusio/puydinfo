@@ -37,6 +37,8 @@ services:
     depends_on:
       - web_pdf
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - site2_default
 
   certbot:
     image: certbot/certbot
@@ -49,3 +51,7 @@ services:
 volumes:
   postgres_data_pdf:
   static_volume_pdf:
+
+networks:
+  site2_default:
+    external: true
