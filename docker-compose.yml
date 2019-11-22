@@ -61,6 +61,8 @@ volumes:
   postgres_data_pdf:
   static_volume_pdf:
   static_volume:
+    external: true
+
 
 networks:
   site2_default:
