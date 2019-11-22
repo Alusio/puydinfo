@@ -103,13 +103,14 @@ def parametres(request):
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
 
-    response_list_freq = requests.get(list_freq)
-    freq_time = response_list_freq.json()[0]["time"][0][:-9]
-    prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
-    response_list_resto = requests.get(list_resto)
-    liste_resto = response_list_resto.json()
-    sejour_ok = False
-    spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
+    if big_test:
+        response_list_freq = requests.get(list_freq)
+        freq_time = response_list_freq.json()[0]["time"][0][:-9]
+        prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
+        response_list_resto = requests.get(list_resto)
+        liste_resto = response_list_resto.json()
+        sejour_ok = False
+        spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
 
     if request.user.is_authenticated and big_test:
         try:
