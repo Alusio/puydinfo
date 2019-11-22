@@ -87,7 +87,7 @@ def prog_perso(request):
 
 def parametres(request):
     programme, created = Programme.objects.get_or_create(user=request.user)
-
+    big_test = False
     """ Si True on passe par l'api local, sinon api www.puydinfo.fr """
     debug_mode = False
 
@@ -111,7 +111,7 @@ def parametres(request):
     sejour_ok = False
     spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and big_test:
         try:
             sejour = Sejour.objects.order_by('-date').filter(user=request.user).first()
         except Sejour.DoesNotExist:
@@ -124,7 +124,7 @@ def parametres(request):
             if prev_time >= dt and prev_time <= dt2:
                 sejour_ok = True
 
-    if request.method == 'POST':
+    if request.method == 'POST' and big_test:
         req = request.POST
         choix = req.getlist('show')
         temps = req.getlist('temps')
