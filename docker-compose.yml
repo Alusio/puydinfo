@@ -38,7 +38,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
       - static_volume_pdf:/static
-      - static_volume:/static2
+      - site2_static_volume:/static2
     depends_on:
       - web2
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
@@ -60,7 +60,7 @@ services:
 volumes:
   postgres_data_pdf:
   static_volume_pdf:
-  static_volume:
+  site2_static_volume:
     external: true
 
 
