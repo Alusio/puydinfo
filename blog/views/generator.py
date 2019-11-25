@@ -1,6 +1,7 @@
 import datetime
 import json
 import tempfile
+import urllib.request
 from datetime import timedelta
 from operator import itemgetter
 
@@ -103,13 +104,13 @@ def parametres(request):
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
 
-    response_list_freq = requests.get(list_freq)
-    response_list_resto = requests.get(list_resto)
+    response_list_freq = urllib.request.urlopen(list_freq)
+    data_test = response_list_freq.read()
+    freq_time = json.loads(data_test.decode('utf-8'))[0]["time"][0][:-9]
+    prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
+
     if big_test:
-
-        freq_time = response_list_freq.json()[0]["time"][0][:-9]
-        prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
-
+        response_list_resto = requests.get(list_resto)
         liste_resto = response_list_resto.json()
         sejour_ok = False
         spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
