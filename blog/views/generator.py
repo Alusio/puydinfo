@@ -108,14 +108,13 @@ def parametres(request):
 
     with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
         freq_time = json.load(json_file)[0]["time"][0][:-9]
+        rep_freq_time =  json.load(json_file)[0]["freq"][0]
     prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
 
-    if big_test:
-
-        response_list_resto = requests.get(list_resto)
-        liste_resto = response_list_resto.json()
-        sejour_ok = False
-        spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
+    with open(os.path.join(settings.BASE_DIR, "templates/restaurant.json")) as json_file:
+        liste_resto = json.load(json_file)
+    sejour_ok = False
+    spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
 
     if request.user.is_authenticated and big_test:
         try:
@@ -130,7 +129,7 @@ def parametres(request):
             if prev_time >= dt and prev_time <= dt2:
                 sejour_ok = True
 
-    if request.method == 'POST' and big_test:
+    if request.method == 'POST':
         req = request.POST
         choix = req.getlist('show')
         temps = req.getlist('temps')
@@ -187,9 +186,9 @@ def parametres(request):
         if resto_soir:
             select_resto_anime_soir = req.getlist('select_resto_anime_soir_' + resto_soir[0])
 
-        freq_temps = frequentation(response_list_freq.json()[0]["freq"][0])
-        response_list = requests.get(lists)
-        json_list = response_list.json()
+        freq_temps = frequentation(rep_freq_time)
+        with open(os.path.join(settings.BASE_DIR, "templates/show.json")) as json_file:
+            json_list = json.load(json_file)
 
         if len(choix) == 0:
             messages.error(request, 'Veuillez choisir au moins UN spectacle !')
@@ -290,10 +289,9 @@ def parametres(request):
         programme.save()
         return redirect('/programme')
 
-    return render(request, 'outil_parametre.html')
-    """return render(request, 'outil_parametre.html',
+    return render(request, 'outil_parametre.html',
                   {'temps': prev_time, 'liste_resto': liste_resto, 'sejour': sejour, 'sejour_ok': sejour_ok,
-                   'spectacle': spectacle})"""
+                   'spectacle': spectacle})
 
 
 @login_required
