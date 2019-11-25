@@ -1,10 +1,11 @@
 import datetime
 import json
+import os
 import tempfile
-import urllib.request
 from datetime import timedelta
 from operator import itemgetter
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites import requests
@@ -104,12 +105,13 @@ def parametres(request):
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
 
-    response_list_freq = urllib.request.urlopen(list_freq)
-    data_test = response_list_freq.read()
-    freq_time = json.loads(data_test.decode('utf-8'))[0]["time"][0][:-9]
+
+    with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
+        freq_time = json.load(json_file)[0]["time"][0][:-9]
     prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
 
     if big_test:
+
         response_list_resto = requests.get(list_resto)
         liste_resto = response_list_resto.json()
         sejour_ok = False
