@@ -105,9 +105,10 @@ def parametres(request):
 
     if big_test:
         response_list_freq = requests.get(list_freq)
+        response_list_resto = requests.get(list_resto)
         freq_time = response_list_freq.json()[0]["time"][0][:-9]
         prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
-        response_list_resto = requests.get(list_resto)
+
         liste_resto = response_list_resto.json()
         sejour_ok = False
         spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
