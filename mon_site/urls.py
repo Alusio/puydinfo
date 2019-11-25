@@ -3,8 +3,10 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
+from rest_framework import routers
 
 import blog
+from blog import views
 from . import settings
 from .sitemaps import SpectacleSitemap, RestaurantSitemap, StaticViewSitemap, HotelSitemap, AnimationSitemap, \
     VilleSitemap
@@ -18,7 +20,13 @@ sitemaps = {
     'static': StaticViewSitemap,
 }
 
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+
 urlpatterns = [
+                  path('', include(router.urls)),
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('admin/', admin.site.urls, name='admin'),
                   path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
                        name='django.contrib.sitemaps.views.sitemap'),
