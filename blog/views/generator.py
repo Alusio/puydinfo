@@ -108,7 +108,8 @@ def parametres(request):
 
     with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
         freq_time = json.load(json_file)[0]["time"][0][:-9]
-        rep_freq_time =  json.load(json_file)[0]["freq"][0]
+    with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
+        rep_freq_time = json.load(json_file)[0]["freq"][0]
     prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
 
     with open(os.path.join(settings.BASE_DIR, "templates/restaurant.json")) as json_file:
@@ -116,7 +117,7 @@ def parametres(request):
     sejour_ok = False
     spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
 
-    if request.user.is_authenticated and big_test:
+    if request.user.is_authenticated:
         try:
             sejour = Sejour.objects.order_by('-date').filter(user=request.user).first()
         except Sejour.DoesNotExist:
