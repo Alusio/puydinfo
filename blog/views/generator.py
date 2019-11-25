@@ -103,9 +103,10 @@ def parametres(request):
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
 
+    response_list_freq = requests.get(list_freq)
+    response_list_resto = requests.get(list_resto)
     if big_test:
-        response_list_freq = requests.get(list_freq)
-        response_list_resto = requests.get(list_resto)
+
         freq_time = response_list_freq.json()[0]["time"][0][:-9]
         prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
 
