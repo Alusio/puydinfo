@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework import viewsets
 
-from blog.models import Spectacle
-from blog.serializers import UserSerializer, GroupSerializer
+from blog.models import Spectacle, Data
+from blog.serializers import UserSerializer, GroupSerializer, DataSerializer
 
 
 def api(request, id):
@@ -36,16 +36,14 @@ def getdata(request):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+class DataViewSet(viewsets.ModelViewSet):
+    queryset = Data.objects.all().order_by('date')
+    serializer_class = DataSerializer

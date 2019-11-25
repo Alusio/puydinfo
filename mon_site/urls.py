@@ -23,9 +23,10 @@ sitemaps = {
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'data', views.DataViewSet)
 
 urlpatterns = [
-                  path('', include(router.urls)),
+
                   path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
                   path('admin/', admin.site.urls, name='admin'),
                   path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
@@ -34,6 +35,7 @@ urlpatterns = [
                   path('accounts/', include('django.contrib.auth.urls')),
                   path('', include('blog.urls')),
                   path('', include('pwa.urls')),
+                  path('', include(router.urls)),
                   path(r'auth/', include('social_django.urls', namespace='social')),
                   path('webpush/', include('webpush.urls'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

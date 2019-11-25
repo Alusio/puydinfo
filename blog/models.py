@@ -328,3 +328,11 @@ class Uploaded_picture(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Data(models.Model):
+    title = models.CharField(max_length=50, blank=True)
+    content = models.TextField(blank=True)
+    date = models.DateField(blank=True, auto_now=True)
+    def __str__(self):
+        return self.title + "_" +self.date.strftime("%d_%m_%Y")

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Profile, Sejour, Spectacle, Type, Image_Show, Color, Category, Theme, Restaurant, Price, Hotel, \
     Fact, Quote, Group, New, Image_Restaurant, Programme, Member, Ville, Animation, Feed, Article, Calendar, \
-    Uploaded_picture
+    Uploaded_picture, Data
 
 # Register your models here.
 admin.site.register(Profile)
@@ -29,3 +29,4 @@ admin.site.register(Feed)
 admin.site.register(Article)
 admin.site.register(Calendar)
 admin.site.register(Uploaded_picture)
+admin.site.register(Data)
