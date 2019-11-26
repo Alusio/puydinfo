@@ -122,6 +122,7 @@ def ville(request, slug):
 
 
 def index_temp(request):
+
     return render(request, 'index_temp.html')
 
 def SignUp(request):
