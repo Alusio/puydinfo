@@ -60,7 +60,7 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-      - site2_volume_certbot:/certbot2
+      - site2_volume_cerbot:/certbot2
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     networks:
       - site2_default
@@ -71,7 +71,7 @@ volumes:
   static_volume_pdf:
   site2_static_volume:
     external: true
-  site2_volume_certbot:
+  site2_volume_cerbot:
     external: true
 
 
