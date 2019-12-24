@@ -47,8 +47,7 @@ services:
       - ./data/certbot/www:/var/www/certbot
       - static_volume_pdf:/static
       - site2_static_volume:/static2
-      - site2_volume_cerbot:/certbot2
-      - site2_volume_lets:/lets2
+      - site2_key_volume:/key2
     depends_on:
       - web2
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
@@ -72,9 +71,7 @@ volumes:
   static_volume_pdf:
   site2_static_volume:
     external: true
-  site2_volume_cerbot:
-    external: true
-  site2_volume_lets:
+  site2_key_volume:
     external: true
 
 
