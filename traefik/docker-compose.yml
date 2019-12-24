@@ -1,34 +1,16 @@
-version: '3'
+version: "3.3"
 
 services:
   traefik:
-    image: traefik:v2.0
-    container_name: traefik
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-    networks:
-      - proxy
+    image: "traefik:v2.0.0"
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "8080:8080"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./data/traefik.yml:/traefik.yml:ro
-      - ./data/acme.json:/acme.json
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:Winnie the bear"
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-networks:
-  proxy:
-    external: true
+  my-app:
+    image: containous/whoami:v1.3.0
