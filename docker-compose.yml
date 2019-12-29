@@ -17,11 +17,12 @@ services:
     networks:
       - default
     deploy:
-      - "traefik.enable=true"
-      - "traefik.http.routers.web2.entrypoints=websecure"
-      - "traefik.http.routers.web2.rule=Host(`www.puydinfo.fr`)"
-      - "traefik.http.routers.web2.tls.certresolver=myhttpchallenge"
-      - "traefik.http.services.web2.loadbalancer.server.port=8000"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.web2.entrypoints=websecure"
+        - "traefik.http.routers.web2.rule=Host(`www.puydinfo.fr`)"
+        - "traefik.http.routers.web2.tls.certresolver=myhttpchallenge"
+        - "traefik.http.services.web2.loadbalancer.server.port=8000"
 
   db:
     image: postgres:11.5-alpine
