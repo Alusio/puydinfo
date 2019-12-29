@@ -14,11 +14,8 @@ services:
     env_file: var.env
     depends_on:
       - db
-    environment:
-      - VIRTUAL_HOST=puydinfo.fr
-      - VIRTUAL_PORT=8000
     networks:
-      - site2_default
+      - default
     deploy:
       mode: replicated
       replicas : 2
@@ -28,10 +25,10 @@ services:
         max_attempts: 3
         window: 120s
       traefik.enable: 'true'
-      traefik.http.routers.whoami.entrypoints: websecure
-      traefik.http.routers.whoami.rule: Host(`www.puydinfo.fr`)
-      traefik.http.routers.whoami.tls.certresolver: myhttpchallenge
-      traefik.http.services.whoami.loadbalancer.server.port: '8000'
+      traefik.http.routers.web2.entrypoints: websecure
+      traefik.http.routers.web2.rule: Host(`www.puydinfo.fr`)
+      traefik.http.routers.web2.tls.certresolver: myhttpchallenge
+      traefik.http.services.web2.loadbalancer.server.port: '8000'
 
   db:
     image: postgres:11.5-alpine
@@ -39,7 +36,7 @@ services:
       - postgres_data_pdf:/var/lib/postgresql/data/
     env_file: var.env.db
     networks:
-      - site2_default
+      - default
 
 
 
@@ -47,13 +44,7 @@ services:
 volumes:
   postgres_data_pdf:
   static_volume_pdf:
-  site2_static_volume:
-    external: true
-  site2_key_volume:
-    external: true
-
-
 
 networks:
-  site2_default:
-    external: true
+  default:
+    driver: overlay
