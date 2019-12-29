@@ -2,7 +2,8 @@ version: '3.3'
 
 services:
   web2:
-    image: puydinfo_web2
+    build:
+      context: ./
     links:
       - db:db
     command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:8000
