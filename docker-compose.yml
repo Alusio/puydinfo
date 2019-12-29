@@ -6,11 +6,11 @@ services:
       context: ./
     links:
       - db:db
-    command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:80
+    command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:8000
     volumes:
       - static_volume_pdf:/code/blog/static
     expose:
-      - 80
+      - 8000
     env_file: var.env
     depends_on:
       - db
@@ -31,7 +31,7 @@ services:
       traefik.http.routers.whoami.entrypoints: websecure
       traefik.http.routers.whoami.rule: Host(`www.puydinfo.fr`)
       traefik.http.routers.whoami.tls.certresolver: myhttpchallenge
-      traefik.http.services.whoami.loadbalancer.server.port: '80'
+      traefik.http.services.whoami.loadbalancer.server.port: '8000'
 
   db:
     image: postgres:11.5-alpine
