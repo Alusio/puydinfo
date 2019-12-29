@@ -6,23 +6,23 @@ services:
       context: ./
     links:
       - db:db
-    command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:8000
+    command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:81
     volumes:
       - static_volume_pdf:/code/blog/static
     expose:
-      - 8000
+      - 81
     env_file: var.env
     depends_on:
       - db
     networks:
-      - default
+      - traefik_default
     deploy:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.web2.entrypoints=websecure"
         - "traefik.http.routers.web2.rule=Host(`www.puydinfo.fr`)"
         - "traefik.http.routers.web2.tls.certresolver=myhttpchallenge"
-        - "traefik.http.services.web2.loadbalancer.server.port=8000"
+        - "traefik.http.services.web2.loadbalancer.server.port=81"
 
   db:
     image: postgres:11.5-alpine
@@ -30,7 +30,7 @@ services:
       - postgres_data_pdf:/var/lib/postgresql/data/
     env_file: var.env.db
     networks:
-      - default
+      - traefik_default
 
 
 
@@ -40,5 +40,5 @@ volumes:
   static_volume_pdf:
 
 networks:
-  default:
-    driver: overlay
+  traefik_default:
+    external: true
