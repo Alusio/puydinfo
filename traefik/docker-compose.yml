@@ -1,29 +1,34 @@
-version: "3.3"
-
+version: '3.3'
 services:
-
   traefik:
-    image: "traefik:v2.0.0-rc3"
-    container_name: "traefik"
+    image: traefik:v2.0.0-rc3
     command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.swarmMode=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+     - --api.insecure=true
+     - --providers.docker=true
+     - --providers.docker.swarmMode=true
+     - --providers.docker.exposedbydefault=false
+     - --entrypoints.web.address=:80
+     - --entrypoints.websecure.address=:443
+     - --certificatesresolvers.myhttpchallenge.acme.httpchallenge=true
+     - --certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web
+     - --certificatesresolvers.myhttpchallenge.acme.email=contact@alusio.fr
+     - --certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json
+     - --providers.docker.endpoint=unix:///var/run/docker.sock
+     - --global.sendAnonymousUsage
     ports:
-      - "80:80"
-      - "8080:8080"
+     - 80:80
+     - 443:443
+     - 8080:8080
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-
-  whoami:
-    image: "containous/whoami"
-    container_name: "simple-service"
-    deploy:
-      labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.whoami.rule=Host(`puydinfo.fr`)"
-        - "traefik.http.routers.whoami.entrypoints=web"
-        - "traefik.http.services.whoami.loadbalancer.server.port=8080"
+     - letsencrypt:/letsencrypt
+     - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+     - default
+    logging:
+      driver: json-file
+networks:
+  default:
+    driver: overlay
+volumes:
+  letsencrypt:
+    external: true
