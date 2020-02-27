@@ -76,7 +76,7 @@ class MemberForm(forms.ModelForm):
 
 
 class SejourForm(forms.ModelForm):
-    name = forms.CharField(max_length=30, required=True, label="Nom")
+    name = forms.CharField(max_length=30, required=True, label="Titre")
     date = forms.DateField(
         widget=DatePickerInput(options={
             "format": 'DD/MM/YY',
