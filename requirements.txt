@@ -1,4 +1,4 @@
-Django==2.2.6
+Django==2.2.13
 django-active-link==0.1.6
 django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap4==0.0.7
@@ -13,9 +13,9 @@ django-pwa==1.0.5
 django-recaptcha3==0.1.0
 django-scheduler==0.8.8
 django-webpush==0.3.1
-djangorestframework==3.9.0
+djangorestframework==3.9.1
 gunicorn==19.9.0
-markdown2==2.3.7
+markdown2==2.3.8
 psycopg2==2.7.7
 psycopg2-binary==2.8.3
 pywebpush==1.9.4
