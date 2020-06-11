@@ -138,10 +138,10 @@ def parametres(request):
         temps_debut = req.getlist('temps_debut')
         visited = req.getlist('visited')
         calculator = req.getlist('calculator')
-        resto_type = req.getlist('choix2')
+        resto_type = '1'
         resto = req.getlist('restaurant')
         price = req.getlist('price')
-        resto_type_soir = req.getlist('choix2_soir')
+        resto_type_soir = '1'
         resto_soir = req.getlist('restaurant_soir')
         price_soir = req.getlist('price_soir')
         prix_min = 0
@@ -168,7 +168,7 @@ def parametres(request):
         if resto:
             select_resto_anime = req.getlist('select_resto_anime_' + resto[0])
 
-        """ On set la fourchette d eprix pour le resto du soir"""
+        """ On set la fourchette de prix pour le resto du soir"""
         if price_soir:
             if price_soir[0] == '1':
                 prix_min_soir = 0

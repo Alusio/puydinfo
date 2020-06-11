@@ -45,6 +45,144 @@
 {% endfor %}
 
 
+
+<div class="section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="section-title">
+                    <h2 class="title"><span class="far fa-tasks"></span> Assistant de planification</h2>
+                </div>
+            </div>
+            <br>
+
+            <div class="post">
+                <div class="post-body">
+
+                    <div class="row">
+
+                        {% if date == "none" %}
+                            <p style="font-size: 1.1em;"> Bonjour {{ user.username }} !<br> Pour organiser votre journée
+                                sur le parc, vous pouvez générer un programme
+                                pour <b>le jour même</b> ou <b>lendemain.</b></p>
+                            {% if not sejour %}
+                                                            <!--
+                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
+                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
+                                    associez un groupe.<br>
+                                <p>Dans un groupe, vous définissez avec qui vous partez. <br>
+                                    De cette manière, nos algorithmes adaptent votre journée plus précisement.</p>
+                                <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                    séléctionne pour vous le plus adpaté à vos critères.</p>
+                                    -->
+                            {% endif %}
+
+                            <div class="col-md-4">
+                                <br>
+                                <a href="/planner" class="btn btn-red-new" style="font-size: 20px"><span
+                                        class="far fa-plus"></span> Générer mon
+                                    programme</a>
+                            </div>
+
+                            {% if not sejour %}
+                            <!--
+                                <div class="col-md-4">
+                                    <br>
+                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
+                                            class="far fa-calendar-day"></span> Commencer un séjour</a>
+                                </div>
+                                -->
+                            {% else %}
+                            <!--
+                                <div class="col-md-4">
+                                    <br>
+                                    <a href="/sejour" class="btn btn-black-new btn-lg"
+                                       style="font-size: 20px; width: 300px"><span
+                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
+                                </div>
+                                -->
+                            {% endif %}
+                        {% elif date == "not" %}
+                            <p style="font-size: 1.1em;">Pour commencer à utiliser notre assistant de création de
+                                programme, vous devez être
+                                connecté sur notre
+                                site.<br>
+                                Cliquez sur "Se connecter" pour vous authentifier ou créer un compte.</p>
+                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                séléctionne pour vous le plus adpaté à vos critères.</p>
+                            <br>
+                            <a href="/accounts/login/" class="btn btn-red-new" style="font-size: 20px">Se
+                                connecter</a>
+
+                        {% else %}
+                            <p style="font-size: 1.1em;">Bonjour {{ user.username }} ! Votre dernier programme généré
+                                est
+                                pour le <b>{{ date }}</b>.<br>
+                                Vous pouvez en générer un nouveau à tout moment.</p>
+                            {% if sejour %}
+                                                            <!--
+                                <p style="font-size: 1.1em;">
+                                    Votre prochain séjour est prévu pour le <b>{{ sejour.date }}</b>.
+                                </p>
+                                -->
+                            {% endif %}
+                            {% if not sejour %}
+                                <!--
+                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
+                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
+                                    associez un groupe.<br>
+                                    Les groupes permettent à nos algorithmes d'adapter aux mieux votre séjour.</p>
+                                    -->
+                            {% endif %}
+                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
+                                séléctionne pour vous le plus adpaté à vos critères.</p>
+                            <br>
+                            <div class="col-md-4">
+                                <a href="/planner" class="btn btn-primary-new btn-lg"
+                                   style="font-size: 20px; width: 300px"><span
+                                        class="far fa-plus"></span> Générer un<br>
+                                    nouveau
+                                    programme</a>
+                                <br>
+                                <br>
+
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/programme" class="btn btn-red-new btn-lg"
+                                   style="font-size: 20px; width: 300px"><span
+                                        class="far fa-lightbulb"></span> Mon
+                                    programme<br> du {{ date|date:'d/m/y' }}  </a>
+                                <br>
+                                <br>
+                            </div>
+                            <!--
+                            <div class="col-md-4">
+                                {% if not sejour %}
+                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
+                                            class="far fa-calendar-day"></span><br> Créer un séjour</a>
+                                {% else %}
+                                    <a href="/sejour" class="btn btn-black-new btn-lg"
+                                       style="font-size: 20px; width: 300px"><span
+                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
+                                {% endif %}
+                                <br>
+                                <br>
+                            </div>
+                            -->
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
 <div class="section">
     <div class="container">
 
@@ -52,7 +190,7 @@
             <div class="col-md-8 hot-post-left">
                 <!-- post -->
                 <div class="post post-thumb">
-                    <a class="post-img" href="/show/{{ show.slug }}"><img
+                    <a class="post-img" href="#"><img
                             src="/media/{{ show.photo_home }}"
                             alt="Phtoto {{ show.slug }}"></a>
                     <div class="post-body">
@@ -77,7 +215,7 @@
                 <!-- post -->
 
                 <div class="post post-thumb">
-                    <a class="post-img" href="/restaurant/{{ resto.slug }}"><img
+                    <a class="post-img" href="#"><img
                             src="/media/{{ resto.photo_home }}"
                             alt="Phtoto {{ show.slug }}"></a>
                     <div class="post-body">
@@ -101,7 +239,7 @@
 
 
                 <div class="post post-thumb">
-                    <a class="post-img" href="/hotel/{{ hotel.slug }}"><img
+                    <a class="post-img" href="#"><img
                             src="/media/{{ hotel.photo_home }}"
                             alt="Phtoto {{ show.slug }}"></a>
                     <div class="post-body">
@@ -129,133 +267,7 @@
 
     </div>
 </div>
-<div class="section">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="section-title">
-                    <h2 class="title"><span class="far fa-tasks"></span> Assistant de planification</h2>
-                </div>
-            </div>
-            <br>
-
-            <div class="post">
-                <div class="post-body">
-
-                    <div class="row">
-
-                        {% if date == "none" %}
-                            <p style="font-size: 1.1em;"> Bonjour {{ user.username }} !<br> Pour organiser votre journée
-                                sur le parc, vous pouvez générer un programme
-                                pour <b>le jour même</b> ou <b>lendemain.</b></p>
-                            {% if not sejour %}
-                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
-                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
-                                    associez un groupe.<br>
-                                <p>Dans un groupe, vous définissez avec qui vous partez. <br>
-                                    De cette manière, nos algorithmes adaptent votre journée plus précisement.</p>
-                                <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
-                                    séléctionne pour vous le plus adpaté à vos critères.</p>
-                            {% endif %}
-
-                            <div class="col-md-4">
-                                <br>
-                                <a href="/planner" class="btn btn-red-new" style="font-size: 20px"><span
-                                        class="far fa-plus"></span> Générer mon
-                                    programme</a>
-                            </div>
-
-                            {% if not sejour %}
-
-                                <div class="col-md-4">
-                                    <br>
-                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
-                                            class="far fa-calendar-day"></span> Commencer un séjour</a>
-                                </div>
-                            {% else %}
-
-                                <div class="col-md-4">
-                                    <br>
-                                    <a href="/sejour" class="btn btn-black-new btn-lg"
-                                       style="font-size: 20px; width: 300px"><span
-                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
-                                </div>
-                            {% endif %}
-                        {% elif date == "not" %}
-                            <p style="font-size: 1.1em;">Pour commencer à utiliser notre assistant de création de
-                                programme, vous devez être
-                                connecté sur notre
-                                site.<br>
-                                Cliquez sur "Se connecter" pour vous authentifier ou créer un compte.</p>
-                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
-                                séléctionne pour vous le plus adpaté à vos critères.</p>
-                            <br>
-                            <a href="/accounts/login/" class="btn btn-red-new" style="font-size: 20px">Se
-                                connecter</a>
-
-                        {% else %}
-                            <p style="font-size: 1.1em;">Bonjour {{ user.username }} ! Votre dernier programme généré
-                                est
-                                pour le <b>{{ date }}</b>.<br>
-                                Vous pouvez en générer un nouveau à tout moment.</p>
-                            {% if sejour %}
-                                <p style="font-size: 1.1em;">
-                                    Votre prochain séjour est prévu pour le <b>{{ sejour.date }}</b>.
-                                </p>
-                            {% endif %}
-                            {% if not sejour %}
-                                <p style="font-size: 1.1em;">Vous pouvez aussi gérer vos séjours.<br>
-                                    Dans un séjour, vous définissez votre date de départ, votre durée de séjour et y
-                                    associez un groupe.<br>
-                                    Les groupes permettent à nos algorithmes d'adapter aux mieux votre séjour.</p>
-                            {% endif %}
-                            <p style="font-size: 1.1em;">Notre assistant génère plus de 50 programmes différents et
-                                séléctionne pour vous le plus adpaté à vos critères.</p>
-                            <br>
-                            <div class="col-md-4">
-                                <a href="/planner" class="btn btn-primary-new btn-lg"
-                                   style="font-size: 20px; width: 300px"><span
-                                        class="far fa-plus"></span> Générer un<br>
-                                    nouveau
-                                    programme</a>
-                                <br>
-                                <br>
-
-                            </div>
-                            <div class="col-md-4">
-                                <a href="/programme" class="btn btn-red-new btn-lg"
-                                   style="font-size: 20px; width: 300px"><span
-                                        class="far fa-lightbulb"></span> Mon
-                                    programme<br> du {{ date|date:'d/m/y' }}  </a>
-                                <br>
-                                <br>
-                            </div>
-                            <div class="col-md-4">
-                                {% if not sejour %}
-                                    <a href="/sejour" class="btn btn-black-new" style="font-size: 20px"><span
-                                            class="far fa-calendar-day"></span><br> Créer un séjour</a>
-                                {% else %}
-                                    <a href="/sejour" class="btn btn-black-new btn-lg"
-                                       style="font-size: 20px; width: 300px"><span
-                                            class="far fa-calendar-day"></span><br> Gérer mes séjours</a>
-                                {% endif %}
-                                <br>
-                                <br>
-                            </div>
-                        {% endif %}
-
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
+<!--
 <div class="section">
     <div class="container">
         <div class="row">
@@ -383,7 +395,7 @@
 
                 </div>
             </div>
-            <!--
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="section-title">
@@ -434,7 +446,7 @@
 
                 </div>
             </div>
-            -->
+
             <div class="col-md-4 smart">
                 <div class="aside-widget">
                     <div class="section-title">
@@ -522,15 +534,14 @@
                         </form>
                     </div>
                 </div>
--->
-                <!-- /newsletter widget -->
+
 
 
             </div>
         </div>
-        <!-- /row -->
+
     </div>
-    <!-- /container -->
+
 </div>
 <div class="section">
     <div class="container">
@@ -603,6 +614,7 @@
         </div>
     </div>
 </div>
+-->
 
 <!-- FOOTER -->
 <footer id="footer">

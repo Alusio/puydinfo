@@ -7,15 +7,15 @@ import tempfile
 
 import requests
 
-os.environ['TIKA_SERVER_JAR'] = 'https://repo1.maven.org/maven2/org/apache/tika/tika-server/1.22/tika-server-1.22.jar'
+os.environ['TIKA_SERVER_JAR'] = 'https://repo1.maven.org/maven2/org/apache/tika/tika-server/1.24.1/tika-server-1.24.1.jar'
 from tika import parser
 
 tmp = tempfile.NamedTemporaryFile()
 
 
 def main():
-    url_data = 'http://127.0.0.1:8000/data/'
-    print("Début du calcule ...")
+    url_data = 'http://0.0.0.0:8000/data/'
+    print("Debut du calcule ...")
     url = 'https://www.puydufou.com/ftp/programme-fr.pdf'
     try:
         r = requests.get(url, stream=True)
@@ -80,7 +80,7 @@ def main():
             'La Gargoulette',
             'L Estaminet'
         ]
-        print(list_copy)
+
         for i in range(18):
             dates_resto = []
             match = re.findall(r'\d{2}:\d{2}', list_copy[i])
@@ -284,10 +284,10 @@ def main():
         """Trouve l'indice de fréquentation"""
         index_feq = 0
         for i in range(len(str_list)):
-            if 'ou une animation' in str_list[i]:
+            if 'ou une animation.' in str_list[i]:
                 index_feq = i
-
-        freq = re.findall(r'\d{1}[1-Z]{2}', str_list[index_feq])
+        freq_split = str_list[index_feq]
+        freq = freq_split[-1]
         if not freq:
             """freq = re.findall(r'\d{1}', str_list[index_feq])"""
             freq = ['none']
