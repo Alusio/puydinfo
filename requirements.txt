@@ -5,8 +5,6 @@ django-bootstrap4==0.0.7
 django-colorfield==0.1.15
 django-gravatar2==1.4.2
 django-http2-push==0.0b2
-django-markdown-deux==1.0.5
-django-markdown-filter==0.0.1
 django-pipeline==1.6.14
 django-progressive-web-app==0.1.1
 django-pwa==1.0.5
