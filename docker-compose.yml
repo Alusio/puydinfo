@@ -3,6 +3,7 @@ version: '3.3'
 services:
   web:
     build: ./
+    image: puydinfo:1.0.0
     links:
       - db:db
     command: gunicorn mon_site.wsgi:application --timeout 120 --bind 0.0.0.0:81
