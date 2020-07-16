@@ -2101,6 +2101,13 @@ input[type=text] {
     padding: 6px 12px;
 }
 
+
+input[type=email] {
+    border: 1px solid gray !important;
+    padding: 6px 12px !important;
+}
+
+
 input[type=number] {
     border: 1px solid gray;
     padding: 6px 12px;
@@ -2114,6 +2121,11 @@ input[type=password] {
 
 input[type=text]:focus {
     border: 2px solid black;
+    outline: none !important;
+}
+
+input[type=email]:focus {
+    border: 2px solid black !important;
     outline: none !important;
 }
 

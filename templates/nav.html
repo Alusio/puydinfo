@@ -10,7 +10,7 @@
                 </li>
             </ul>
             <div class="nav-logo">
-                <a href="/index" class="logo"><img src={% static 'logo_puydinfo.png' %} alt=""></a>
+                <a href="/" class="logo"><img src={% static 'logo_puydinfo.png' %} alt=""></a>
             </div>
             <div class="nav-btns">
                 <button class="aside-btn"><i class="fa fa-bars"></i></button>
@@ -472,12 +472,15 @@
                             </div>
                         </div>
                     </li>
+                    <!--
+                                        <li><a href="/index"> Guide</a></li>
+                                        <li><a href="/index"> Conseils</a></li>
+                                        -->
 
-                    <li><a href="/index"> Guide</a></li>
-                    <li><a href="/index"> Conseils</a></li>
                 {% endif %}
-            <!--
-                <li><a href="/calendrier"> Calendrier</a></li>-->
+
+                <!--
+                    <li><a href="/calendrier"> Calendrier</a></li>-->
                 {% if user.is_authenticated %}
                     <!--
                     <li class="has-dropdown megamenu">
@@ -595,7 +598,7 @@
                                                       style="font-size: 1.4em; min-width: 30px;"></span> Connexion</a>
                 </li>
             {% endif %}
-                <!--
+            <!--
             {% if user.is_authenticated %}
 
                 <li class="has-dropdown"><a><span class="far fa-map"
