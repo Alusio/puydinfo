@@ -26,6 +26,7 @@ urlpatterns = [
     path('result', views.programmation, name='programation'),
     path('result_live', views.resultat_live, name='result_live'),
     path('api/<str:id>', views.api, name='api'),
+    path('generate', views.generate, name='generate'),
     path('getdata', views.getdata, name='getdata'),
     path('index_off', views.index_off, name='index_off'),
     path('article/<slug:slug>', views.articles, name='articles'),

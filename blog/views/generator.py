@@ -53,10 +53,10 @@ def prog_perso(request):
     """ Si True on passe par l'api local, sinon api www.puydinfo.fr """
 
     """ Si True, on force les valeurs k et j dans l'algo"""
-    debug_prog = False
+    debug_prog = True
 
     if debug_prog:
-        lists = 'http://127.0.0.1:8000/api/prog'
+        lists = 'http://0.0.0.0:8000/api/prog'
     else:
         lists = 'https://www.puydinfo.fr/api/prog'
 
@@ -83,12 +83,12 @@ def prog_perso(request):
         programme.resultat = programme_custom
         programme.temps = 400
         programme.size = len(programme_custom)
+        programme.save()
 
     return render(request, 'prog_perso.html', {'data_prog': data_prog})
 
 
 def parametres(request):
-    programme, created = Programme.objects.get_or_create(user=request.user)
     big_test = False
     """ Si True on passe par l'api local, sinon api www.puydinfo.fr """
     debug_mode = False
@@ -104,7 +104,6 @@ def parametres(request):
         list_freq = 'https://www.puydinfo.fr/api/info'
         list_resto = 'https://www.puydinfo.fr/api/resto'
         lists = 'https://www.puydinfo.fr/api/prog'
-
 
     with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
         freq_time = json.load(json_file)[0]["time"][0][:-9]
@@ -132,6 +131,9 @@ def parametres(request):
 
     if request.method == 'POST':
         req = request.POST
+
+        generate(request, req.getlist('show'), req.getlist('temps'), req.getlist('temps_midi'), req.getlist('temps_debut'), req.getlist('visited'), req.getlist('calculator'))
+        '''
         choix = req.getlist('show')
         temps = req.getlist('temps')
         temps_midi = req.getlist('temps_midi')
@@ -289,11 +291,192 @@ def parametres(request):
 
         programme.save()
         return redirect('/programme')
-
+        '''
+        return redirect('/programme')
     return render(request, 'outil_parametre.html',
                   {'temps': prev_time, 'liste_resto': liste_resto, 'sejour': sejour, 'sejour_ok': sejour_ok,
                    'spectacle': spectacle})
 
+
+def generate(request, choix, temps, temps_midi, temps_debut, visited, calcul):
+    generator(request, choix, temps, temps_midi, temps_debut, visited, calcul)
+
+
+def generator(request, choix, temps, temps_midi, temps_debut, visited, calculator):
+    programme, created = Programme.objects.get_or_create(user=request.user)
+    big_test = False
+    """ Si True on passe par l'api local, sinon api www.puydinfo.fr """
+    debug_mode = False
+
+    """ Si True, on force les valeurs k et j dans l'algo"""
+    debug_prog = False
+
+    if debug_mode:
+        list_freq = 'http://127.0.0.1:8000/api/info'
+        list_resto = 'http://127.0.0.1:8000/api/resto'
+        lists = 'http://127.0.0.1:8000/api/prog'
+    else:
+        list_freq = 'https://www.puydinfo.fr/api/info'
+        list_resto = 'https://www.puydinfo.fr/api/resto'
+        lists = 'https://www.puydinfo.fr/api/prog'
+
+    with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
+        freq_time = json.load(json_file)[0]["time"][0][:-9]
+    with open(os.path.join(settings.BASE_DIR, "templates/freq.json")) as json_file:
+        rep_freq_time = json.load(json_file)[0]["freq"][0]
+    prev_time = datetime.datetime.strptime(freq_time, '%d/%m/%Y')
+
+    with open(os.path.join(settings.BASE_DIR, "templates/restaurant.json")) as json_file:
+        liste_resto = json.load(json_file)
+    sejour_ok = False
+    spectacle = Spectacle.objects.filter(type__name="Programme").union(Animation.objects.filter(type__name="Programme"))
+
+    resto_type = '1'
+    resto = '1'
+    price = '1'
+    resto_type_soir = '1'
+    resto_soir = '1'
+    price_soir = '1'
+
+    """ On set la fourchette d eprix pour le resto du midi"""
+    if price:
+        if price[0] == '1':
+            prix_min = 0
+            prix_max = 10
+        if price[0] == '2':
+            prix_min = 10
+            prix_max = 20
+        if price[0] == '3':
+            prix_min = 20
+            prix_max = 50
+        if price[0] == '4':
+            prix_min = 0
+            prix_max = 50
+
+    select_resto_anime = "none"
+    if resto:
+        select_resto_anime = '1'
+
+    """ On set la fourchette de prix pour le resto du soir"""
+    if price_soir:
+        if price_soir[0] == '1':
+            prix_min_soir = 0
+            prix_max_soir = 10
+        if price_soir[0] == '2':
+            prix_min_soir = 10
+            prix_max_soir = 20
+        if price_soir[0] == '3':
+            prix_min_soir = 20
+            prix_max_soir = 50
+        if price_soir[0] == '4':
+            prix_min_soir = 0
+            prix_max_soir = 50
+
+    select_resto_anime_soir = "none"
+    if resto_soir:
+        select_resto_anime_soir = '1'
+
+    freq_temps = frequentation(rep_freq_time)
+    with open(os.path.join(settings.BASE_DIR, "templates/show.json")) as json_file:
+        json_list = json.load(json_file)
+
+    if len(choix) == 0:
+        messages.error(request, 'Veuillez choisir au moins UN spectacle !')
+        return render(request, 'outil_parametre.html')
+    tab = []
+    resultat_final = []
+    state = 0
+
+    if calculator[0] == "1":
+        state = 1
+    else:
+        state = 0
+    exclus = '[]'
+    if not debug_prog:
+        for i in range(1, 10):
+            for j in range(1, 3):
+                for k in range(1, 3):
+                    tab.append(i)
+                    resultat_tmp = programmation(temps, choix, temps_midi, temps_debut, prix_min, prix_max,
+                                                 resto_type,
+                                                 k, j, freq_temps, freq_time, json_list, resto, liste_resto,
+                                                 select_resto_anime, prix_min_soir, prix_max_soir,
+                                                 select_resto_anime_soir, resto_soir, resto_type_soir, exclus)
+                    if resultat_tmp != []:
+                        resultat_final.append(
+                            [len(resultat_tmp[0]), resultat_tmp[6], resultat_tmp, resultat_tmp[7]])
+    else:
+        resultat_tmp = programmation(temps, choix, temps_midi, temps_debut, prix_min, prix_max,
+                                     resto_type,
+                                     1, 0, freq_temps, freq_time, json_list, resto, liste_resto,
+                                     select_resto_anime, prix_min_soir, prix_max_soir,
+                                     select_resto_anime_soir, resto_soir, resto_type_soir, exclus)
+        if resultat_tmp != []:
+            resultat_final.append([len(resultat_tmp[0]), resultat_tmp[6], resultat_tmp, resultat_tmp[7]])
+
+    if resultat_tmp == []:
+        return redirect('/planner')
+    if state == 1:
+        index_max = resultat_final.index(max(resultat_final, key=lambda x: x[1]))
+        max_value = resultat_final[index_max][1]
+        enum = []
+        for p in range(len(resultat_final)):
+            if resultat_final[p][1] == max_value:
+                enum.append(p)
+        tmp = []
+
+        for p in range(len(enum)):
+            tmp.append(resultat_final[enum[p]])
+
+        resultat_index = tmp.index(max(tmp, key=lambda x: x[3]))
+
+        resultat = tmp[resultat_index][2]
+
+    else:
+        resultat_index = resultat_final.index(max(resultat_final, key=lambda x: x[0]))
+        resultat = resultat_final[resultat_index][2]
+
+    """ On enregistre en bdd le resultat de programmation """
+    programme.resultat = json.dumps(resultat[0], indent=4, sort_keys=True, default=str)
+    programme.resultat_im = json.dumps(resultat[1], indent=4, sort_keys=True, default=str)
+    programme.hor_finder = json.dumps(resultat[2], indent=4, sort_keys=True, default=str)
+    programme.freq_temps = json.dumps(resultat[3], indent=4, sort_keys=True, default=str)
+    programme.temps = json.dumps(resultat[4], indent=4, sort_keys=True, default=str)
+    programme.size = json.dumps(len(resultat[0]), indent=4, sort_keys=True, default=str)
+    programme.restaurant_rapide = json.dumps(resultat[5], indent=4, sort_keys=True, default=str)
+    programme.coef_unmissable = json.dumps(resultat[7], indent=4, sort_keys=True, default=str)
+    programme.coef_grand_show = json.dumps(resultat[6], indent=4, sort_keys=True, default=str)
+    programme.number_resto_midi = json.dumps(resultat[8], indent=4, sort_keys=True, default=str)
+    programme.name_resto_midi = json.dumps(resultat[9], indent=4, sort_keys=True, default=str)
+    programme.k = json.dumps(resultat[10], indent=4, sort_keys=True, default=str)
+    programme.j = json.dumps(resultat[11], indent=4, sort_keys=True, default=str)
+    programme.suggest = json.dumps(resultat[12], indent=4, sort_keys=True, default=str)
+    programme.name_show_midi = json.dumps(resultat[13], indent=4, sort_keys=True, default=str)
+    programme.price_show_midi = json.dumps(resultat[14], indent=4, sort_keys=True, default=str)
+
+    programme.suggest_soir = json.dumps(resultat[15], indent=4, sort_keys=True, default=str)
+    programme.number_resto_soir = json.dumps(resultat[16], indent=4, sort_keys=True, default=str)
+    programme.name_resto_soir = json.dumps(resultat[17], indent=4, sort_keys=True, default=str)
+    programme.name_show_soir = json.dumps(resultat[18], indent=4, sort_keys=True, default=str)
+    programme.price_show_soir = json.dumps(resultat[19], indent=4, sort_keys=True, default=str)
+    programme.temps_form = temps
+    programme.choix = choix
+    programme.temps_midi = temps_midi
+    programme.temps_debut = temps_debut
+    programme.prix_min = prix_min
+    programme.prix_max = prix_max
+    programme.resto_type = resto_type
+    programme.resto = resto
+    programme.select_resto_anime = select_resto_anime
+    programme.prix_min_soir = prix_min_soir
+    programme.prix_max_soir = prix_max_soir
+    programme.select_resto_anime_soir = select_resto_anime_soir
+    programme.resto_soir = resto_soir
+    programme.resto_type_soir = resto_type_soir
+    programme.calculator = calculator
+    programme.exclus = []
+
+    programme.save()
 
 @login_required
 @transaction.atomic
@@ -337,7 +520,6 @@ def programmation(temps, choix, temps_midi, temps_debut, prix_min, prix_max, res
 
     programme_immersif = []
     hor_finder = []
-
 
     """On cherche le nombre de séance pour chaque show"""
     nb_horaires = []
