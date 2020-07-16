@@ -320,7 +320,7 @@ def programmation(temps, choix, temps_midi, temps_debut, prix_min, prix_max, res
     abort = False
     ret = []
     programme = []
-    """Liste des show à ne surtout aps manquer"""
+    """Liste des show à ne surtout pas manquer"""
     unmissable = ["1", "2", "5", "6"]
 
     """Liste des grands spectacles"""
@@ -374,7 +374,7 @@ def programmation(temps, choix, temps_midi, temps_debut, prix_min, prix_max, res
 
     """ Matrice d'importance pour les shows"""
     importance.append(['1', '2', '3', '4', '5', '6', '8', '9', '10', '11', '12', '13', '14', '18', '19'])
-    importance.append([1, 1, 1, 1, 1, 1, 13, 10, 11, 16, 14, 15, 16, 12, 12])
+    importance.append([1, 5, 5, 5, 5, 5, 13, 10, 11, 16, 14, 15, 16, 12, 12])
 
     """ Matrice de distance pour les restaurants (TOUS les restaurants)"""
     distance_rapide.append(['1', '2', '3', '4', '5', '6', '8', '9', '10', '11', '12', '13', '14', '18', '19'])
