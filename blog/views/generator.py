@@ -149,7 +149,7 @@ def parametres(request):
         prix_min_soir = 0
         prix_max_soir = 50
 
-        """ On set la fourchette d eprix pour le resto du midi"""
+        """ On set la fourchette de prix pour le resto du midi"""
         if price:
             if price[0] == '1':
                 prix_min = 0

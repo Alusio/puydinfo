@@ -2,9 +2,8 @@
 import datetime
 import os
 import re
-import sys
 import tempfile
-
+import json
 import requests
 
 os.environ['TIKA_SERVER_JAR'] = 'https://repo1.maven.org/maven2/org/apache/tika/tika-server/1.24.1/tika-server-1.24.1.jar'
@@ -14,16 +13,18 @@ tmp = tempfile.NamedTemporaryFile()
 
 
 def main():
-    url_data = 'http://0.0.0.0:8000/data/'
-    print("Debut du calcule ...")
-    url = 'https://www.puydufou.com/ftp/programme-fr.pdf'
+    print("Debut du calcule")
+    url = 'https://puydinfo.s3.fr-par.scw.cloud/programme-fr.pdf'
+    headers = {'Content-Type': 'application/json', 'x-api-key': 'Owf7jHYnzi7bbrh3hpAUS3KWYGzQkQYF24o4Cphh'}
+    urlPost = 'https://6wy5xbacyc.execute-api.eu-west-3.amazonaws.com/dev'
+
     try:
         r = requests.get(url, stream=True)
     except requests.exceptions.RequestException as e:
-        sys.exit()
+        print(e)
     content_type = r.headers.get('content-type')
-    if 'application/pdf' in content_type:
-
+    print(content_type)
+    if 'application' in content_type:
         with open('../blog/static/programme-fr.pdf', 'wb') as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
@@ -55,11 +56,6 @@ def main():
 
         restaurants = []
         restaurant_id = ['I', 'A', 'B', 'J', 'K', 'C', 'L', 'D', 'M', 'E', 'N', 'F', 'O', 'G', 'P', 'H', 'R', 'S']
-        restaurant_cat = []
-        restaurant_cat.append(['A', 'B'])
-        restaurant_cat.append(['C', 'D', 'E', 'F', 'G', 'H'])
-        restaurant_cat.append(['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S'])
-        restaurant_fix = ['A', 'B']
         restaurant_name = [
             'Le Rendez-vous des ventres Faims',
             'Le Cafe de la Madelon',
@@ -212,26 +208,13 @@ def main():
             if 'AMOUREUX' in list[m]:
                 final.append(["19", "Les Amoureux de Verdun", "15", dates])
 
-        json = []
+        jsonData = []
         json_resto = []
-        cat = 0
-        fix = 0
-
 
         """Ecriture json restaurant"""
         for k in range(len(restaurants)):
-            for i in range(len(restaurant_cat)):
-                if restaurants[k][0] in restaurant_cat[i]:
-                    cat = i
-                if restaurants[k][0] in restaurant_fix:
-                    fix = 1
-                else:
-                    fix = 0
             json_temp = {}
             json_temp["id"] = restaurants[k][0]
-            json_temp["name"] = restaurants[k][1]
-            json_temp["category"] = cat
-            json_temp["hor_fix"] = fix
             midi_pass = True
             prog = []
             midi = 0
@@ -246,21 +229,16 @@ def main():
             json_temp["midi"] = midi
             json_temp["prog"] = prog
             json_resto.append(json_temp)
-        f = open(os.path.join("../templates/restaurant.json"), "w+")
-        json_str = str(json_resto)
-        json_str = json_str.replace("'", '"')
-        f.write(json_str)
-        f.close()
-
-        resto = {'title': 'resto', 'content': json_str}
-        requests.post(url_data, data=resto)
+        for info in json_resto:
+            myresto = json.dumps(info)
+            b = requests.post(urlPost, data=myresto, headers=headers)
+            print(b.content)
 
         """Ecriture json show"""
         for k in range(len(final)):
             json_temp = {}
             json_temp["id"] = final[k][0]
-            json_temp["name"] = final[k][1]
-            json_temp["duree"] = final[k][2]
+            json_temp["midi"] = "0"
             prog = []
 
             for m in range(len(final[k][3])):
@@ -270,16 +248,14 @@ def main():
                 prog.append(prog_temp)
 
             json_temp["prog"] = prog
-            json.append(json_temp)
+            jsonData.append(json_temp)
 
-        f = open(os.path.join("../templates/show.json"), "w+")
-        json_str = str(json)
-        json_str = json_str.replace("'", '"')
-        f.write(json_str)
-        f.close()
 
-        show = {'title': 'show', 'content': json_str}
-        requests.post(url_data, data=show)
+        for info in jsonData:
+            mydata = json.dumps(info)
+            x = requests.post(urlPost, data=mydata, headers=headers)
+            print(x.content)
+
 
         """Trouve l'indice de fréquentation"""
         index_feq = 0
@@ -296,22 +272,18 @@ def main():
 
         json_freq = []
         json_temp_freq = {}
-        json_temp_freq["freq"] = freq
+        json_temp_freq["id"] = "999"
+        json_temp_freq["midi"] = "0"
         date_now = datetime.datetime.now()
         date_now += datetime.timedelta(days=1)
-        json_temp_freq["time"] = [date_now.strftime("%d/%m/%Y %H:%M:%S")]
+        json_temp_freq["prog"] = [date_now.strftime("%d/%m/%Y %H:%M:%S")]
         json_freq.append(json_temp_freq)
-        json_str_freq = str(json_freq)
-        json_str_freq = json_str_freq.replace("'", '"')
-        f1 = open(os.path.join("../templates/freq.json"), "w+")
-        f1.write(json_str_freq)
-        f1.close()
-        freq = {'title': 'freq', 'content': json_str_freq}
-        requests.post(url_data, data=freq)
 
+        myfreq = json.dumps(json_freq[0])
+        y = requests.post(urlPost, data=myfreq, headers=headers)
+        print(y.content)
     print("Calcule : done !")
 
 
 if __name__ == "__main__":
-    # execute only if run as a script
     main()
